@@ -1,4 +1,8 @@
 <app-menu></app-menu>
-<app-feed *ngIf="page ==='feed'"></app-feed>
+
+<div class="feed-component">
+  <app-feed *ngIf="page ==='feed'"></app-feed>
+</div>
+
 <app-friends *ngIf="page === 'friends'"></app-friends>
 <app-profile *ngIf="page === 'profile'"></app-profile>
