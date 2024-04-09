@@ -1,7 +1,20 @@
+/*
 div {
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
     height: 100%;
+}
+*/
+
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.feedImage{
+    width: 25%;
+    height: auto;
 }
