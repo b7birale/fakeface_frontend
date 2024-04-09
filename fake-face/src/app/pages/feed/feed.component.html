@@ -12,6 +12,9 @@
 <div class="container">
     <span>{{chosenImage.value}}</span>
     <img class="feedImage" [src]="'assets/' + chosenImage.value + '.jpg'" />
+    <div>{{feedObject[chosenImage.value].user_name}}</div>
+    <div>{{feedObject[chosenImage.value].user_url}}</div>
+    <div>{{feedObject[chosenImage.value].photo_url}}</div>
 </div>
 
 </div>
