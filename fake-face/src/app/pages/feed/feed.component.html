@@ -1,22 +1,25 @@
 <div>
 <div>
-    <select #chosenImage (change)="reload()">
-        <option value="OQyRttOV4l8">OQyRttOV4l8</option>
+    <select (change)="reload()" [(ngModel)]="chosenImage">
+        <option *ngFor="let obj of feedObject" [ngValue]="obj">{{obj.id}}</option>
+        <!-- <option value="OQyRttOV4l8">OQyRttOV4l8</option>
         <option value="5XP-n_Xqqv8">5XP-n_Xqqv8</option>
         <option value="Shf_B7x8gDA">Shf_B7x8gDA</option>
         <option value="lFAhbzmvpak">lFAhbzmvpak</option>
-        <option value="eFXho78pQH8">eFXho78pQH8</option>
+        <option value="eFXho78pQH8">eFXho78pQH8</option> -->
     </select>
 </div>
 
-<div class="container">
-    <img class="feedImage" [src]="'assets/' + chosenImage.value + '.jpg'" />
+
+<div class="container" *ngIf="chosenImage">
+    <img class="feedImage" [src]="'assets/' + chosenImage.id + '.jpg'" />
     <div class="break"></div>
-    <div>{{feedObject[chosenImage.value].user_name}}</div>
+    <div>{{chosenImage.user_name}}</div>
     <div class="break"></div>
-    <div>{{feedObject[chosenImage.value].user_url}}</div>
+    <div>{{chosenImage.user_url}}</div>
     <div class="break"></div>
-    <div>{{feedObject[chosenImage.value].photo_url}}</div>
-</div>
+    <div>{{chosenImage.photo_url}}</div>
+</div> 
+
 
 </div>

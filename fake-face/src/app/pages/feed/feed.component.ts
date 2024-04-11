@@ -8,7 +8,13 @@ import { FeedObject } from '../../shared/constants/constants';
 })
 
 export class FeedComponent {
-  feedObject: any = FeedObject;
+  feedObject: Array<any> = FeedObject;
+
+  chosenImage: any;
+
+  constructor(){
+    this.chosenImage = this.feedObject[0];
+  }
 
   reload(){
     
