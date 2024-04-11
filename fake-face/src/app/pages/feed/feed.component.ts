@@ -9,4 +9,8 @@ import { FeedObject } from '../../shared/constants/constants';
 
 export class FeedComponent {
   feedObject: any = FeedObject;
+
+  reload(){
+    
+  }
 }

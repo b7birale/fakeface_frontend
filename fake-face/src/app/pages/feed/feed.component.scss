@@ -12,9 +12,16 @@ div {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
 }
 
 .feedImage{
     width: 25%;
     height: auto;
+}
+
+.break{
+    flex-basis: 100%;
+    height: 0;
 }
