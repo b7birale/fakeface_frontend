@@ -19,6 +19,23 @@
     <div>{{chosenImage.user_url}}</div>
     <div class="break"></div>
     <div>{{chosenImage.photo_url}}</div>
+
+    <!-- Kommentek hozzáadása a képekhez -->
+    <div class="break"></div>
+    <div>
+        <label for="username">Username: </label>
+        <input type="text" [(NgModel)]="commentObject['username']"/>
+    </div>
+    <div class="break"></div>
+    <div>
+        <textarea [(ngModel)]="commentObject['comment']"></textarea>
+    </div>
+    <div class="break"></div>
+    <div>
+        <button (click)="addComment()">ADD</button>
+    </div>
+
+
 </div> 
 
 
