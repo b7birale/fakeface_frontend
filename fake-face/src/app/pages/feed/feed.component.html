@@ -29,10 +29,10 @@
                 <th>Comment</th>
                 <th>Date</th>
             </tr>
-            <tr *ngFor="let comment of comments">
+            <tr *ngFor="let comment of comments; let i = index;" [ngClass]="i % 2 === 0 ? 'table-header-even' : 'table-header-odd'">
                 <td>{{comment.username}}</td>
                 <td>{{comment.comment}}</td>
-                <td>{{comment.date}}</td>
+                <td>{{comment.date | dateFormat}}</td>
             </tr>
         </table>
     </div>
