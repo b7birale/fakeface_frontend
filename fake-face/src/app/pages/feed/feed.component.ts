@@ -26,7 +26,11 @@ export class FeedComponent {
   addComment() {
     if(this.commentObject.username && this.commentObject.comment){
       this.commentObject['date'] = new Date();
-      this.comments.push(this.commentObject);
+      //SPREAD OPERÁTOR: {... }
+      this.comments.push({...this.commentObject});
+
+      //másik megoldás:
+      //this.comments.push(Object.assign({}, this.commentObject));
     }
     
   }

@@ -20,6 +20,24 @@
     <div class="break"></div>
     <div>{{chosenImage.photo_url}}</div>
 
+    <!-- Kommenteknek kialakított táblázat -->
+    <div class="break"></div>
+    <div *ngIf="comments.length">
+        <table>
+            <tr>
+                <th>User</th>
+                <th>Comment</th>
+                <th>Date</th>
+            </tr>
+            <tr *ngFor="let comment of comments">
+                <td>{{comment.username}}</td>
+                <td>{{comment.comment}}</td>
+                <td>{{comment.date}}</td>
+            </tr>
+        </table>
+    </div>
+
+
     <!-- Kommentek hozzáadása a képekhez -->
     <div class="break"></div>
     <div>
@@ -28,11 +46,11 @@
     </div>
     <div class="break"></div>
     <div>
-        <textarea [(ngModel)]="commentObject['comment']"></textarea>
+        <textarea rows="10" cols="50" [(ngModel)]="commentObject['comment']"></textarea>
     </div>
     <div class="break"></div>
     <div>
-        <button (click)="addComment()">ADD</button>
+        <button (click)="addComment()">Add</button>
     </div>
 
 
