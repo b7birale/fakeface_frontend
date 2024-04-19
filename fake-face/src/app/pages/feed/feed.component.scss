@@ -1,7 +1,39 @@
+/*
 div {
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
     height: 100%;
+}
+*/
+
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.feedImage{
+    width: 25%;
+    height: auto;
+}
+
+.break{
+    flex-basis: 100%;
+    height: 0;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+.table-header-even {
+    background-color: #D1BB9E;
+}
+
+.table-header-odd {
+    background-color: #edd5b6;
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-menu',
@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrl: './menu.component.scss'
 })
 export class MenuComponent {
+  @Output() selectedPage: EventEmitter<string> = new EventEmitter();
+
+  menuSwitch(pageValue: string){
+    this.selectedPage.emit(pageValue);
+  }
 
 }
