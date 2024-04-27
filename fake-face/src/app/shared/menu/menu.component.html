@@ -1,5 +1,13 @@
-<select #pageValue (change)="menuSwitch(pageValue.value)">
-    <option value="feed">Feed</option>
+<!-- <select #pageValue (change)="menuSwitch(pageValue.value)">
+    <option routerLink="/feed">Feed</option>
     <option value="friends">Friends</option>
     <option value="profile">Profile</option>
-</select>
+</select> -->
+
+<!-- nav router-linkkel -->
+
+<nav>
+    <a routerLink="/feed">Feed</a>
+    <a routerLink="/friends">Friends</a>
+    <a routerLink="/profile">Profile</a>
+</nav>
