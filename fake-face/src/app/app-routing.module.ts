@@ -17,6 +17,15 @@ const routes: Routes = [
   { 
     path: 'not-found', 
     loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule) 
+  },
+  { 
+    path: '', 
+    redirectTo: '/feed',
+    pathMatch: 'full'
+  },
+  { 
+    path: '**', 
+    redirectTo: '/not-found'
   }
 ];
 
