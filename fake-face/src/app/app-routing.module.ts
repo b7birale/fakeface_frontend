@@ -3,6 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   { 
+    path: 'friends', 
+    loadChildren: () => import('./pages/friends/friends.module').then(m => m.FriendsModule) 
+  },
+  { 
     path: 'feed', 
     loadChildren: () => import('./pages/feed/feed.module').then(m => m.FeedModule) 
   },
