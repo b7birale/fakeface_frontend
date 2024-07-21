@@ -1,1 +1,25 @@
-<p>signup works!</p>
+<div class="login_component">
+    <div class="div-flex">
+        <h1>Register an account</h1>
+        <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+            <div><label for="email">Email: </label><input type="text" formControlName="email" /></div>
+            <div><label for="password">Password: </label><input type="password" formControlName="password" /></div>
+            <div><label for="rePassword">Password again: </label><input type="password" formControlName="rePassword" /></div>
+            <div formGroupName="name">
+                <div>
+                    <label for="firstname">First name: </label>
+                    <input type="text" formControlName="firstname" />
+                </div>
+                <div>
+                    <label for="lastname">Last name: </label>
+                    <input type="text" formControlName="lastname" />
+                </div>
+            </div>
+            <div>
+                <button type="submit">Register</button>
+                <button (click)="goBack()">Back</button>
+            </div>
+        </form>
+    </div>
+</div>
+
