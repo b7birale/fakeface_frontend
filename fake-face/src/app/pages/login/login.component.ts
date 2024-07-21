@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DelayService } from '../../shared/services/delay.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ export class LoginComponent {
   email = new FormControl('');
   password = new FormControl('');
 
-  constructor(private router: Router){
+  constructor(private router: Router, private delayService: DelayService){
 
   }
 
@@ -21,11 +22,16 @@ export class LoginComponent {
   }
 
   login(){
-    if (this.email.value === 'test@gmail.com' && this.password.value === 'testpw'){
-      this.router.navigateByUrl('/feed');
-    } else {
-      console.error('Incorrect email or password!');
+    if(this.email.value !== null && this.password.value !== null){
+      this.delayService.delayWithPromise(this.email.value, this.password.value).then((data: boolean) => {
+        this.router.navigateByUrl('/feed');
+      }).catch(error => {
+        console.error('Incorrect email or password!');
+      }).finally(() => {
+        console.log('This is executed finally.');
+      });
     }
+    
   }
 
 }
