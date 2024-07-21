@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FeedRoutingModule } from './feed-routing.module';
 import { FeedComponent } from './feed.component';
 //import { MenuComponent } from '../../shared/menu/menu.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DateFormatPipe } from '../../shared/pipes/date-format.pipe';
 
 
@@ -16,7 +16,8 @@ import { DateFormatPipe } from '../../shared/pipes/date-format.pipe';
   imports: [
     CommonModule,
     FeedRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class FeedModule { }

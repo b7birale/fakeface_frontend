@@ -40,19 +40,20 @@
 
     <!-- Kommentek hozzáadása a képekhez -->
     <div class="break"></div>
-    <div>
-        <label for="username">Username: </label>
-        <input type="text" [(ngModel)]="commentObject['username']"/>
-    </div>
-    <div class="break"></div>
-    <div>
-        <textarea rows="10" cols="50" [(ngModel)]="commentObject['comment']"></textarea>
-    </div>
-    <div class="break"></div>
-    <div>
-        <button (click)="addComment()">Add</button>
-    </div>
-
+    <form [formGroup]="commentsForm" (ngSubmit)="addComment()">
+        <div>
+            <label for="username">Username: </label> <!--Erre valamiért hibát ad a devtools (a terminál és a kód nem!)-->
+            <input type="text" formControlName="username"/>
+        </div>
+        <div class="break"></div>
+        <div>
+            <textarea rows="10" cols="50" formControlName="comment"></textarea>
+        </div>
+        <div class="break"></div>
+        <div>
+            <button type="submit">Add</button>
+        </div>
+    </form>
 
 </div> 
 
