@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
-import { FeedObject } from '../../shared/constants/constants';
+import { Component, OnChanges, OnInit } from '@angular/core';
+//import { FeedObject } from '../../shared/constants/constants';
 import { Comment } from '../../shared/models/Comment';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FeedimagesService } from '../../shared/services/feedimages.service';
+import { Image } from '../../shared/models/Image';
 
 @Component({
   selector: 'app-feed',
@@ -10,10 +12,11 @@ import { Router } from '@angular/router';
   styleUrl: './feed.component.scss'
 })
 
-export class FeedComponent {
-  feedObject: Array<any> = FeedObject;
-
-  chosenImage: any;
+export class FeedComponent implements OnInit, OnChanges {
+  //feedObject: Array<any> = FeedObject;
+  feedObject?: Array<Image>;
+  chosenImage?: Image;
+  loadedImage?: string;
 
   //commentObject: Comment = {};
   comments: Array<Comment> = []; //egyelőre ebben a tömbben tároljuk a kommenteket -> később erre adatbázis lesz ofc
@@ -24,8 +27,27 @@ export class FeedComponent {
     date: new Date()
   })
 
-  constructor(private fb: FormBuilder, private router: Router){
+  
+  constructor(private fb: FormBuilder, private router: Router, private feedimagesService: FeedimagesService){
     //console.log("Ez a konstruktor");
+  }
+
+  ngOnChanges(): void{
+    if(this.chosenImage?.id){
+      this.feedimagesService.loadImage(this.chosenImage?.id + '.jpg').subscribe(data => {
+        let reader = new FileReader();
+        reader.readAsDataURL(data);
+        reader.onloadend = () => {
+          this.loadedImage = reader.result as string;
+        }
+      })
+    }
+  }
+
+  ngOnInit(): void{
+    this.feedimagesService.loadImageMeta('__credits.json').subscribe((data: Array<Image>) => {
+      this.feedObject = data;
+    })
   }
 
   createForm(model: Comment){

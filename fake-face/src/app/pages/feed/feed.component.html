@@ -10,9 +10,10 @@
     </select>
 </div>
 
+<!--16-os sor vége:  [src]="'assets/' + chosenImage.id + '.jpg'"-->
 
 <div class="container" *ngIf="chosenImage">
-    <img class="feedImage" [src]="'assets/' + chosenImage.id + '.jpg'" />
+    <img class="feedImage" [src]="loadedImage"/>
     <div class="break"></div>
     <div>{{chosenImage.user_name}}</div>
     <div class="break"></div>
