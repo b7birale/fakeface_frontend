@@ -65,7 +65,13 @@ export class FeedComponent implements OnInit, OnChanges {
 
 
   reload(){
-    
+    //ide kéne valami!
+    return this.chosenImage;
+  }
+
+  loadImage(imageObject: Image) {
+    this.chosenImage = imageObject;
+    this.reload();
   }
 
   addComment() {
