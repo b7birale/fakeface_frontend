@@ -44,10 +44,22 @@ export class FeedComponent implements OnInit, OnChanges {
     }
   }
 
+  /*
   ngOnInit(): void{
     this.feedimagesService.loadImageMeta('__credits.json').subscribe((data: Array<Image>) => {
       this.feedObject = data;
     })
+  }*/
+
+  ngOnInit(): void {
+    this.feedimagesService.loadImageMeta('__credits.json').subscribe((data: Array<Image>) => {
+      this.feedObject = data;
+  
+      // Betöltjük az első képet, ha van a listában
+      if (this.feedObject && this.feedObject.length > 0) {
+        this.loadImage(this.feedObject[0]); // Első kép betöltése
+      }
+    });
   }
 
   createForm(model: Comment){
@@ -71,7 +83,17 @@ export class FeedComponent implements OnInit, OnChanges {
 
   loadImage(imageObject: Image) {
     this.chosenImage = imageObject;
-    this.reload();
+    
+    // Kép betöltése a service-en keresztül
+    if (this.chosenImage?.id) {
+      this.feedimagesService.loadImage(this.chosenImage.id + '.jpg').subscribe(data => {
+        let reader = new FileReader();
+        reader.readAsDataURL(data);
+        reader.onloadend = () => {
+          this.loadedImage = reader.result as string;
+        };
+      });
+    }
   }
 
   addComment() {
