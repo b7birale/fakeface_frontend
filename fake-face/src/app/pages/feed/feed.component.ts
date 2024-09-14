@@ -1,7 +1,7 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
 //import { FeedObject } from '../../shared/constants/constants';
 import { Comment } from '../../shared/models/Comment';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FeedimagesService } from '../../shared/services/feedimages.service';
 import { Image } from '../../shared/models/Image';
@@ -27,12 +27,15 @@ export class FeedComponent implements OnInit, OnChanges {
     date: new Date()
   })
 
+  imageSelect = new FormControl<Image|null>(null);
+
   
   constructor(private fb: FormBuilder, private router: Router, private feedimagesService: FeedimagesService){
     //console.log("Ez a konstruktor");
   }
 
   ngOnChanges(): void{
+    /*
     if(this.chosenImage?.id){
       this.feedimagesService.loadImage(this.chosenImage?.id + '.jpg').subscribe(data => {
         let reader = new FileReader();
@@ -41,7 +44,7 @@ export class FeedComponent implements OnInit, OnChanges {
           this.loadedImage = reader.result as string;
         }
       })
-    }
+    }*/
   }
 
   /*
@@ -57,6 +60,7 @@ export class FeedComponent implements OnInit, OnChanges {
   
       // Betöltjük az első képet, ha van a listában
       if (this.feedObject && this.feedObject.length > 0) {
+        this.imageSelect.setValue(this.feedObject[0]);
         this.loadImage(this.feedObject[0]); // Első kép betöltése
       }
     });
@@ -78,22 +82,25 @@ export class FeedComponent implements OnInit, OnChanges {
 
   reload(){
     //ide kéne valami!
-    return this.chosenImage;
+    //return this.chosenImage;
+    this.loadImage(this.imageSelect.value);
   }
 
-  loadImage(imageObject: Image) {
-    this.chosenImage = imageObject;
+  loadImage(imageObject: Image | null) {
+    if(imageObject){
+      this.chosenImage = imageObject;
     
-    // Kép betöltése a service-en keresztül
-    if (this.chosenImage?.id) {
-      this.feedimagesService.loadImage(this.chosenImage.id + '.jpg').subscribe(data => {
-        let reader = new FileReader();
-        reader.readAsDataURL(data);
-        reader.onloadend = () => {
-          this.loadedImage = reader.result as string;
-        };
-      });
-    }
+      // Kép betöltése a service-en keresztül
+      //if (this.chosenImage?.id) {
+        this.feedimagesService.loadImage(this.chosenImage.id + '.jpg').subscribe(data => {
+          let reader = new FileReader();
+          reader.readAsDataURL(data);
+          reader.onloadend = () => {
+            this.loadedImage = reader.result as string;
+          };
+        });
+      //}
+    }  
   }
 
   addComment() {

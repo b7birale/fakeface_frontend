@@ -1,13 +1,15 @@
 <div>
 <div>
-    <select (change)="reload()" [(ngModel)]="chosenImage">
-        <option *ngFor="let obj of feedObject" [ngValue]="obj">{{obj.id}}</option>
-        <!-- <option value="OQyRttOV4l8">OQyRttOV4l8</option>
-        <option value="5XP-n_Xqqv8">5XP-n_Xqqv8</option>
-        <option value="Shf_B7x8gDA">Shf_B7x8gDA</option>
-        <option value="lFAhbzmvpak">lFAhbzmvpak</option>
-        <option value="eFXho78pQH8">eFXho78pQH8</option> -->
-    </select>
+    <form>
+        <select (change)="reload()" [(ngModel)]="chosenImage" [formControl]="imageSelect">
+            <option *ngFor="let obj of feedObject" [ngValue]="obj">{{obj.id}}</option>
+            <!-- <option value="OQyRttOV4l8">OQyRttOV4l8</option>
+            <option value="5XP-n_Xqqv8">5XP-n_Xqqv8</option>
+            <option value="Shf_B7x8gDA">Shf_B7x8gDA</option>
+            <option value="lFAhbzmvpak">lFAhbzmvpak</option>
+            <option value="eFXho78pQH8">eFXho78pQH8</option> -->
+        </select>
+    </form>
 </div>
 
 <!--16-os sor vége:  [src]="'assets/' + chosenImage.id + '.jpg'"-->
