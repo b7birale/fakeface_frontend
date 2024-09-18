@@ -1,5 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 
+
+$bgcolor: rgb(0, 255, 68);
+
 html {
-    background-color: beige;
+    background-color: $bgcolor;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+/*
+$bgcolor: rgb(255, 0, 221);
+
+html {
+    background-color: $bgcolor;
+}*/
