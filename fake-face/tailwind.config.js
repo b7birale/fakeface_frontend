@@ -6,6 +6,7 @@ module.exports = {
   theme: {
     extend: {},
     colors: {
+      'blue': '#1E88E5',
       'midnight_green': '#005668', //kód
       'tiffany_blue': '#94BFBE',
       'lavender': '#9FA8DA',
