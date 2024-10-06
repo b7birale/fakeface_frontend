@@ -4,5 +4,4 @@ export interface Post {
     picture?: string;
     text: string;
     date: Date;
-    comments?: number; //???
 }

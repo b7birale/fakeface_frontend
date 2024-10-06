@@ -15,6 +15,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/feed/feed.module').then(m => m.FeedModule) 
   },
   { 
+    path: 'chatroom', 
+    loadChildren: () => import('./pages/chatroom/chatroom.module').then(m => m.ChatroomModule) 
+  },
+  { 
     path: 'not-found', 
     loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule) 
   },
