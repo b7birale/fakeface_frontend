@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, Observable, of } from "rxjs";
 import { User } from "../../models/user/user.model";
+import { LoginUser } from "../../models/login_user/login_user.model";
 
 @Injectable({
     providedIn: 'root',
@@ -26,6 +27,18 @@ import { User } from "../../models/user/user.model";
 
       return this.http.post<User>(this.apiUrl, id)
         .pipe(catchError(this.handleError<User>()));
+    }
+
+    login(model: LoginUser): Observable<User> {
+
+      return this.http.post<User>(this.apiUrl + "/Login", model)
+        .pipe(catchError(this.handleError<User>()));
+    }
+
+    signUp(user: User): Observable<boolean> {
+
+      return this.http.post<boolean>(this.apiUrl + "/SignUp", user)
+        .pipe(catchError(this.handleError<boolean>()));
     }
   
     // Error handling method

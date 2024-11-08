@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { UserService } from '../../shared/services/user/user.service';
+import { User } from '../../shared/models/user/user.model';
+import { Observable, tap } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
@@ -12,7 +15,17 @@ export class SignupComponent implements OnInit {
 
 
   form: FormGroup = new FormGroup({});
-  constructor(private router: Router){
+  user: User = {
+    email: '',
+    password: '',
+    firstname: '',
+    lastname: '',
+    user_id: 0,
+    birth_date: new Date()
+  }
+  data$: Observable<boolean> | undefined;
+
+  constructor(private router: Router, private userService: UserService){ //, private userService: UserService
 
   }
 
@@ -23,14 +36,24 @@ export class SignupComponent implements OnInit {
   initForm(){
     this.form.addControl('email', new FormControl<string|null>(''));
     this.form.addControl('password', new FormControl<string|null>(''));
-    this.form.addControl('repassword', new FormControl<string|null>(''));
+    //this.form.addControl('repassword', new FormControl<string|null>(''));
     this.form.addControl('firstname', new FormControl<string|null>(''));
     this.form.addControl('lastname', new FormControl<string|null>(''));
     this.form.addControl('birthdate', new FormControl<string|null>(''));
   }
 
+  getFormValues(){
+    this.user.email = this.form.controls['email'].value;
+    this.user.password = this.form.controls['password'].value;
+    this.user.firstname = this.form.controls['firstname'].value;
+    this.user.lastname = this.form.controls['lastname'].value;
+    this.user.birth_date = this.form.controls['birthdate'].value;
+  }
+
   register(){
-    
+    this.getFormValues();
+
+    this.data$ = this.userService.signUp(this.user).pipe(tap(data => console.log('Raw data:', data)));
   }
 
 
