@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FeedObject } from '../../shared/constants/constants';
 import { Comment } from '../../shared/models/Comment';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { PostService } from '../../shared/services/post/post.service';
 
 @Component({
   selector: 'app-feed',
@@ -10,7 +11,8 @@ import { Router } from '@angular/router';
   styleUrl: './feed.component.scss'
 })
 
-export class FeedComponent {
+export class FeedComponent implements OnInit {
+
   feedObject: Array<any> = FeedObject;
 
   chosenImage: any;
@@ -24,8 +26,11 @@ export class FeedComponent {
     date: new Date()
   })
 
-  constructor(private fb: FormBuilder, private router: Router){
-    //console.log("Ez a konstruktor");
+  constructor(private fb: FormBuilder, private router: Router, private postService: PostService){
+  }
+
+  ngOnInit(): void {
+    this.postService.getPostsByUserIds().subscribe(data => console.log('Raw data:', data));
   }
 
   createForm(model: Comment){

@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { catchError, Observable, of } from "rxjs";
 import { User } from "../../models/user/user.model";
 import { LoginUser } from "../../models/login_user/login_user.model";
+import { TokenModel } from "../../models/token/token.model";
 
 @Injectable({
     providedIn: 'root',
@@ -29,10 +30,10 @@ import { LoginUser } from "../../models/login_user/login_user.model";
         .pipe(catchError(this.handleError<User>()));
     }
 
-    login(model: LoginUser): Observable<User> {
+    login(model: LoginUser): Observable<TokenModel> {
 
-      return this.http.post<User>(this.apiUrl + "/Login", model)
-        .pipe(catchError(this.handleError<User>()));
+      return this.http.post<TokenModel>(this.apiUrl + "/Login", model)
+        .pipe(catchError(this.handleError<TokenModel>()));
     }
 
     signUp(user: User): Observable<boolean> {

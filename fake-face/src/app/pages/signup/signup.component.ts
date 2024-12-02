@@ -21,7 +21,7 @@ export class SignupComponent implements OnInit {
     firstname: '',
     lastname: '',
     user_id: 0,
-    birth_date: new Date()
+    birthdate: new Date()
   }
   data$: Observable<boolean> | undefined;
 
@@ -39,7 +39,7 @@ export class SignupComponent implements OnInit {
     //this.form.addControl('repassword', new FormControl<string|null>(''));
     this.form.addControl('firstname', new FormControl<string|null>(''));
     this.form.addControl('lastname', new FormControl<string|null>(''));
-    this.form.addControl('birthdate', new FormControl<string|null>(''));
+    this.form.addControl('birthdate', new FormControl<Date|null>(null));
   }
 
   getFormValues(){
@@ -47,13 +47,16 @@ export class SignupComponent implements OnInit {
     this.user.password = this.form.controls['password'].value;
     this.user.firstname = this.form.controls['firstname'].value;
     this.user.lastname = this.form.controls['lastname'].value;
-    this.user.birth_date = this.form.controls['birthdate'].value;
+    this.user.birthdate = this.form.controls['birthdate'].value;
   }
 
   register(){
     this.getFormValues();
-
-    this.data$ = this.userService.signUp(this.user).pipe(tap(data => console.log('Raw data:', data)));
+    //console.log("register");
+    this.userService.signUp(this.user).subscribe(data => console.log('Raw data:', data));
+    
+    //this.data$ = 
+    //pipe(tap(data => console.log('Raw data:', data)));
   }
 
 
