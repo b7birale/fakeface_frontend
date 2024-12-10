@@ -30,7 +30,10 @@ export class FeedComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.postService.getPostsByUserIds().subscribe(data => console.log('Raw data:', data));
+    const userId = localStorage.getItem("id");
+    if(userId){
+      this.postService.getPostsByUserIds(userId).subscribe(data => console.log('Raw data:', data));
+    }  
   }
 
   createForm(model: Comment){

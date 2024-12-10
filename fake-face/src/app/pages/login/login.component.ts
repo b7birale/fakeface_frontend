@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { LoginUser } from '../../shared/models/login_user/login_user.model';
 import { UserService } from '../../shared/services/user/user.service';
 import { TOAST_STATE, ToastService } from '../../shared/toast/toast.service';
+import { UtilService } from '../../shared/services/util/util.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,7 @@ export class LoginComponent implements OnInit {
     password: ''
   }
 
-  constructor(private router: Router, private userService: UserService, private toastService: ToastService){
+  constructor(private router: Router, private userService: UserService, private toastService: ToastService, private utilService: UtilService){
 
   }
 
@@ -38,14 +39,18 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
-    
-    //this.router.navigateByUrl('/feed');
-
     this.getFormValues();
-    //console.log("login");
     this.userService.login(this.loginUser).subscribe(data => {
+      let token = this.utilService.decodeToken(data.token!);
       localStorage.setItem("token", data.token!);
+      localStorage.setItem("fisrtname", token.Firstname);
+      localStorage.setItem("lastname", token.Lastname);
+      localStorage.setItem("email", token.Email!);
+      localStorage.setItem("id", token.Id!);
+
       this.toastService.showToast(TOAST_STATE.success, "Sikeres bejelentkezés");
+
+      this.router.navigateByUrl('/feed');
     });
 
 

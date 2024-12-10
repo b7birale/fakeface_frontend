@@ -1,6 +1,6 @@
 export interface JwtDecodeModel{
     Kind?: string;
-    ID?: string;
+    Id?: string;
     RefreshToken?: string;
     Registered?: string;
     alg?: string;
@@ -13,4 +13,6 @@ export interface JwtDecodeModel{
     nbf?: number;
     typ?: string;
     ProfilePicture: string;
+    Firstname: string;
+    Lastname: string;
 }

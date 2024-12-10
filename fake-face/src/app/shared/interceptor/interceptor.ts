@@ -55,7 +55,6 @@ export class LoaderInterceptor implements HttpInterceptor {
     }
 
     const authReq = req.clone(options);
-    console.log("itt vagyok");
     return next.handle(authReq).pipe(
       catchError((event: HttpErrorResponse) => {
         if (event instanceof HttpErrorResponse) {

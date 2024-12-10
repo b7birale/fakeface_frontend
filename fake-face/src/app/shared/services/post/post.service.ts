@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, Observable, of } from "rxjs";
 import { User } from "../../models/user/user.model";
@@ -17,9 +17,12 @@ import { Post } from "../../models/post/post.model";
   
     constructor(private http: HttpClient) {}
   
-    getPostsByUserIds(): Observable<Post[]> {
+    getPostsByUserIds(userId: string): Observable<Post[]> {
       let url = this.apiUrl + "/GetPosts";
-      return this.http.get<Post[]>(url)
+      let queryParam = new HttpParams().set('userId', userId.toString());
+      console.log(queryParam);
+      return this.http.get<Post[]>(url, {params: queryParam}
+      )
         .pipe(catchError(this.handleError<Post[]>('GetPosts', [])));
     }
   
