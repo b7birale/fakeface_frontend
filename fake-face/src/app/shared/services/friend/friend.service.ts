@@ -1,15 +1,12 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, Observable, of } from "rxjs";
-import { User } from "../../models/user/user.model";
-import { LoginUser } from "../../models/login_user/login_user.model";
-import { Post } from "../../models/post/post.model";
 
 @Injectable({
     providedIn: 'root',
   })
-  export class PostService {
-    private apiUrl = 'https://localhost:7258/api/post';
+  export class FriendService {
+    private apiUrl = 'https://localhost:7258/api/friend';
   
     private httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -17,13 +14,13 @@ import { Post } from "../../models/post/post.model";
   
     constructor(private http: HttpClient) {}
   
-    getPostsByUserIds(userId: string): Observable<Post[]> {
-      let url = this.apiUrl + "/GetPosts";
-      let queryParam = new HttpParams().set('userIds', userId.toString());
+    GetFriendsByUserId(userId: string): Observable<number[]> {
+      let url = this.apiUrl + "/GetFriends";
+      let queryParam = new HttpParams().set('userId', userId.toString());
       console.log(queryParam);
-      return this.http.get<Post[]>(url, {params: queryParam}
+      return this.http.get<number[]>(url, {params: queryParam}
       )
-        .pipe(catchError(this.handleError<Post[]>('GetPosts', [])));
+        .pipe(catchError(this.handleError<number[]>('GetFriends', [])));
     }
   
     // Error handling method

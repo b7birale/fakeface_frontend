@@ -5,6 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './friends.component.html',
   styleUrl: './friends.component.scss'
 })
+
 export class FriendsComponent {
 
 }

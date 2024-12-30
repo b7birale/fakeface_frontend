@@ -12,6 +12,7 @@ import { PostService } from './shared/services/post/post.service';
 import { LoaderInterceptor } from './shared/interceptor/interceptor';
 import { ToastComponent } from './shared/toast/toast.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FriendService } from './shared/services/friend/friend.service';
 
 
 @NgModule({
@@ -35,7 +36,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [UserService, PostService, {
+  providers: [UserService, PostService, FriendService, {
     provide: HTTP_INTERCEPTORS,
     useClass: LoaderInterceptor,
     multi: true
