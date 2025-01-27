@@ -1,9 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FeedObject } from '../../shared/constants/constants';
 import { Comment } from '../../shared/models/Comment';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PostService } from '../../shared/services/post/post.service';
+import { Subject, takeUntil } from 'rxjs';
+import { Actions, ofType } from '@ngrx/effects';
+import { TOAST_STATE, ToastService } from '../../shared/toast/toast.service';
+import * as PostAction from '../../shared/services/post/post-store/post.action';
+import * as FriendAction from '../../shared/services/friend/friend-store/friend.action';
+import { Store } from '@ngrx/store';
+import { Post } from '../../shared/models/post/post.model';
+import { PostFeed } from '../../shared/models/post/post-feed.model';
+import { UtilService } from '../../shared/services/util/util.service';
+import { SafeResourceUrl } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-feed',
@@ -11,11 +22,26 @@ import { PostService } from '../../shared/services/post/post.service';
   styleUrl: './feed.component.scss'
 })
 
-export class FeedComponent implements OnInit {
+export class FeedComponent implements OnInit, OnDestroy {
 
   feedObject: Array<any> = FeedObject;
-
   chosenImage: any;
+  destroy$: Subject<boolean> = new Subject<boolean>();
+  form: FormGroup = new FormGroup({});
+  posts: Array<PostFeed> = [];
+  selectedFile!: File | undefined;
+  selectedFileEncoded: string = '';
+  selectedFileName?: string = undefined;
+  userId: number = 0;
+  safeImg!: SafeResourceUrl;
+
+  post: Post = {
+    title: '',
+    post_id: 0,
+    user_id: 0,
+    content: '',
+    date: new Date()
+  }
 
   //commentObject: Comment = {};
   comments: Array<Comment> = []; //egyelőre ebben a tömbben tároljuk a kommenteket -> később erre adatbázis lesz ofc
@@ -26,14 +52,48 @@ export class FeedComponent implements OnInit {
     date: new Date()
   })
 
-  constructor(private fb: FormBuilder, private router: Router, private postService: PostService){
-  }
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private utilService: UtilService,
+    private toastService: ToastService,
+    private store: Store,
+    private action$?: Actions
+  ){
+
+    action$?.pipe(ofType(PostAction.GetPostsByUserIdsSuccess), takeUntil(this.destroy$)).subscribe((response) => {
+      if (response.data !== null && response.data !== undefined) {
+        this.posts = response.data;
+        this.createSafeUrls();
+      }
+    })
+
+    action$?.pipe(ofType(FriendAction.GetFriendsByUserIdSuccess), takeUntil(this.destroy$)).subscribe((response) => {
+      if (response.data !== null && response.data !== undefined) {
+        let userids_str = this.createStringFromUserIds(response.data);
+        console.log(userids_str);
+        this.store.dispatch(PostAction.GetPostsByUserIds({data: userids_str}));
+      }
+    })
+
+    action$?.pipe(ofType(PostAction.CreatePostSuccess), takeUntil(this.destroy$)).subscribe((response) => {
+      if (response.data !== null && response.data !== undefined) {
+        this.toastService.showToast(TOAST_STATE.success, "Sucessful!");
+        const userId = localStorage.getItem("id");
+        if(userId){
+          this.store.dispatch(FriendAction.GetFriendsByUserId({data: userId}));
+        }
+      }
+    })
+
+  } 
 
   ngOnInit(): void {
-    const userId = localStorage.getItem("id");
-    if(userId){
-      this.postService.getPostsByUserIds(userId).subscribe(data => console.log('Raw data:', data));
-    }  
+    this.initForm();
+    this.userId = Number(localStorage.getItem("id"));
+    if(this.userId){
+      this.store.dispatch(FriendAction.GetFriendsByUserId({data: this.userId.toString()}));
+    }
   }
 
   createForm(model: Comment){
@@ -43,16 +103,42 @@ export class FeedComponent implements OnInit {
     return formGroup;
   }
 
-  /*
-  constructor(){
-    this.chosenImage = this.feedObject[0];
-  }
-  */
+  getFormValues(){
+    this.post = JSON.parse(JSON.stringify(this.post));
 
-
-  reload(){
+    this.post.title = this.form.controls['title'].value;
+    this.post.content = this.form.controls['content'].value;
+    this.post.user_id = Number(localStorage.getItem("id"));
     
+    this.post.date = new Date();
+
+    if(this.selectedFileEncoded){
+      this.post.picture = this.selectedFileEncoded;
+    }
+    if(!this.post.title){
+      this.toastService.showToast(TOAST_STATE.warning, "Please write a title!");
+    } else if(!this.post.content){
+      this.toastService.showToast(TOAST_STATE.warning, "Please write content!");
+    } else if (this.post.title && this.post.content && this.post.user_id){
+      this.store.dispatch(PostAction.CreatePost({data: this.post}));
+    } else{
+      this.toastService.showToast(TOAST_STATE.warning, "Error!");
+    }
+
   }
+
+
+  createStringFromUserIds(userIds: number[]){
+    let userid = "";
+    userid = userid + this.userId.toString();
+    for (let index = 0; index < userIds.length; index++) {
+      const element = userIds[index];
+      userid = userid + "," + element;
+    }
+    return userid;
+  }
+
+  reload(){}
 
   addComment() {
     if (this.commentsForm.valid){
@@ -72,6 +158,43 @@ export class FeedComponent implements OnInit {
       console.log("Sikertelen komment!");
     }*/
 
+  }
+
+  
+  initForm(){
+    this.form.addControl('title', new FormControl<string|null>(''));
+    this.form.addControl('content', new FormControl<string|null>(''));
+  }
+
+  postClick(){
+    this.getFormValues();
+  }
+
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0]; 
+    if (this.selectedFile) {
+      this.selectedFileName = this.selectedFile.name;
+        if (this.selectedFile.type === "image/png" || this.selectedFile.type === "image/jpg" || this.selectedFile.type === "image/jpeg") {
+            this.utilService.convertFileToBase64(this.selectedFile).subscribe(res => {
+                this.selectedFileEncoded = res;
+            });
+        }
+    }
+  }
+
+  createSafeUrls(){
+    this.posts = JSON.parse(JSON.stringify(this.posts));
+    for (let index = 0; index < this.posts.length; index++) {
+      if(this.posts[index].picture && this.posts[index].picture !== ''){
+        this.safeImg = this.utilService.decodeBase64ImageFileToSecurityTrustResource(this.posts[index].picture!);
+        console.log(this.posts[index].pictureSafeUrl);
+      }
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
 }

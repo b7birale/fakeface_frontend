@@ -1,19 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Location } from '@angular/common';
 import { Router } from '@angular/router';
-import { UserService } from '../../shared/services/user/user.service';
 import { User } from '../../shared/models/user/user.model';
-import { Observable, tap } from 'rxjs';
+import { Observable, Subject, takeUntil, tap } from 'rxjs';
+import { TOAST_STATE, ToastService } from '../../shared/toast/toast.service';
+import { Store } from '@ngrx/store';
+import { Actions, ofType } from '@ngrx/effects';
+import * as UserAction from '../../shared/services/user/user-store/user.action';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss'
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, OnDestroy {
 
-
+  destroy$: Subject<boolean> = new Subject<boolean>();
   form: FormGroup = new FormGroup({});
   user: User = {
     email: '',
@@ -25,9 +27,21 @@ export class SignupComponent implements OnInit {
   }
   data$: Observable<boolean> | undefined;
 
-  constructor(private router: Router, private userService: UserService){ //, private userService: UserService
+  constructor(
+    private router: Router,
+    private toastService: ToastService,
+    private store: Store,
+    private action$?: Actions
+  ){
+    action$?.pipe(ofType(UserAction.SignUpSuccess), takeUntil(this.destroy$)).subscribe((response) => {
+      if (response.data !== null && response.data !== undefined) {
 
+        this.toastService.showToast(TOAST_STATE.success, "Sikeres regisztráció");
+        this.router.navigateByUrl('/login');
+      }
+    })
   }
+
 
   ngOnInit(): void{
     this.initForm();
@@ -52,42 +66,12 @@ export class SignupComponent implements OnInit {
 
   register(){
     this.getFormValues();
-    //console.log("register");
-    this.userService.signUp(this.user).subscribe(data => console.log('Raw data:', data));
-    
-    //this.data$ = 
-    //pipe(tap(data => console.log('Raw data:', data)));
+    this.store.dispatch(UserAction.SignUp({data: this.user}));
   }
 
-
-
-
-/*
-
-  signUpForm = new FormGroup({
-    email: new FormControl(''),
-    password: new FormControl(''),
-    rePassword: new FormControl(''),
-    name: new FormGroup({
-      firstname: new FormControl(''),
-      lastname: new FormControl('')
-    })
-  });
-
-
-
-  constructor(private location: Location){
-
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
-
-  onSubmit(){
-    console.log(this.signUpForm.value);
-  }
-
-  goBack(){
-    this.location.back();
-  }
-
-*/
 
 }

@@ -1,11 +1,13 @@
 import { Injectable } from "@angular/core";
 import { JwtDecodeModel } from "../../models/token/jwt.model";
+import { Observable, ReplaySubject } from "rxjs";
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Injectable({
     providedIn: 'root'
 })
 export class UtilService {
-    constructor() {}
+    constructor(private _sanitizer: DomSanitizer) {}
 
     decodeToken(token: string): JwtDecodeModel {
         const _decodeToken = (token: string) => {
@@ -29,6 +31,21 @@ export class UtilService {
 
     decodeTokenExpired(exp: number) {
         return new Date(exp * 1000);
+    }
+
+    convertFileToBase64(file: File): Observable<string> {
+        const result = new ReplaySubject<string>(1);
+        const reader = new FileReader();
+        reader.readAsBinaryString(file);
+        reader.onload = (event) => {
+            if (event.target && event.target.result)
+                result.next(btoa(event.target.result.toString()));
+        }
+        return result;
+    }
+
+    decodeBase64ImageFileToSecurityTrustResource(base64String: string) {
+        return this._sanitizer.bypassSecurityTrustResourceUrl(base64String)
     }
 
 }
