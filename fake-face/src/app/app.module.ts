@@ -24,6 +24,11 @@ import * as FriendState from './shared/services/friend/friend-store/friend.state
 import { PostEffects } from './shared/services/post/post-store/post.effects';
 import * as PostReducer from './shared/services/post/post-store/post.reducer';
 import * as PostState from './shared/services/post/post-store/post.state';
+import { CommentEffects } from './shared/services/comment/comment-store/comment.effects';
+import * as CommentReducer from './shared/services/comment/comment-store/comment.reducer';
+import * as CommentState from './shared/services/comment/comment-store/comment.state';
+import { NgxImageCompressService } from 'ngx-image-compress';
+import { CommentService } from './shared/services/comment/comment.service';
 
 
 @NgModule({
@@ -47,6 +52,8 @@ import * as PostState from './shared/services/post/post-store/post.state';
     EffectsModule.forFeature([FriendEffects]),
     StoreModule.forFeature(PostState.POST_FEATURE_KEY, PostReducer.reducer),
     EffectsModule.forFeature([PostEffects]),
+    StoreModule.forFeature(CommentState.COMMENT_FEATURE_KEY, CommentReducer.reducer),
+    EffectsModule.forFeature([CommentEffects]),
     StoreModule.forRoot({}),
     EffectsModule.forRoot([])
   ],
@@ -55,7 +62,7 @@ import * as PostState from './shared/services/post/post-store/post.state';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [UserService, PostService, FriendService, {
+  providers: [UserService, PostService, FriendService, CommentService, NgxImageCompressService, {
     provide: HTTP_INTERCEPTORS,
     useClass: LoaderInterceptor,
     multi: true

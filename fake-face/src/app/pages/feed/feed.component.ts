@@ -14,6 +14,7 @@ import { Post } from '../../shared/models/post/post.model';
 import { PostFeed } from '../../shared/models/post/post-feed.model';
 import { UtilService } from '../../shared/services/util/util.service';
 import { SafeResourceUrl } from '@angular/platform-browser';
+import { DataUrl, NgxImageCompressService } from 'ngx-image-compress';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class FeedComponent implements OnInit, OnDestroy {
   selectedFileName?: string = undefined;
   userId: number = 0;
   safeImg!: SafeResourceUrl;
+  compressedImage: string = "";
 
   post: Post = {
     title: '',
@@ -55,6 +57,7 @@ export class FeedComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private imgCompress: NgxImageCompressService,
     private utilService: UtilService,
     private toastService: ToastService,
     private store: Store,
@@ -63,15 +66,15 @@ export class FeedComponent implements OnInit, OnDestroy {
 
     action$?.pipe(ofType(PostAction.GetPostsByUserIdsSuccess), takeUntil(this.destroy$)).subscribe((response) => {
       if (response.data !== null && response.data !== undefined) {
-        this.posts = response.data;
+        this.posts = JSON.parse(JSON.stringify(response.data));
         this.createSafeUrls();
       }
+      this.clearForm();
     })
 
     action$?.pipe(ofType(FriendAction.GetFriendsByUserIdSuccess), takeUntil(this.destroy$)).subscribe((response) => {
       if (response.data !== null && response.data !== undefined) {
         let userids_str = this.createStringFromUserIds(response.data);
-        console.log(userids_str);
         this.store.dispatch(PostAction.GetPostsByUserIds({data: userids_str}));
       }
     })
@@ -113,7 +116,7 @@ export class FeedComponent implements OnInit, OnDestroy {
     this.post.date = new Date();
 
     if(this.selectedFileEncoded){
-      this.post.picture = this.selectedFileEncoded;
+      this.post.picture = this.compressedImage;
     }
     if(!this.post.title){
       this.toastService.showToast(TOAST_STATE.warning, "Please write a title!");
@@ -171,25 +174,66 @@ export class FeedComponent implements OnInit, OnDestroy {
   }
 
   onFileSelected(event: any) {
+    
     this.selectedFile = event.target.files[0]; 
+    
     if (this.selectedFile) {
       this.selectedFileName = this.selectedFile.name;
         if (this.selectedFile.type === "image/png" || this.selectedFile.type === "image/jpg" || this.selectedFile.type === "image/jpeg") {
             this.utilService.convertFileToBase64(this.selectedFile).subscribe(res => {
                 this.selectedFileEncoded = res;
+
+                const reader = new FileReader();
+                reader.readAsDataURL(this.selectedFile as Blob);
+                reader.onload = () => {
+                const base64String = reader.result as string;
+                this.imgCompress.compressFile(base64String, -1, 50, 50).then(
+                    (result: DataUrl) => {
+                        this.compressedImage = result;
+                    }
+                  ).catch(error => {
+                      console.error('Compression Error:', error);
+                  });
+                };
+
             });
         }
-    }
+        
+    } 
+
+    /*
+
+    this.imgCompress.uploadAndGetImageWithMaxSize(0.05)
+    .then((result: string) => {
+      this.selectedFileEncoded = result;
+      console.log(atob(result));
+    },
+      (bestresult) => {
+        this.selectedFileEncoded = bestresult;
+        console.log(atob(bestresult));
+      }
+    ) */
+
   }
+
+  fileChanged(event: any){
+    this.selectedFileName = event.target.files[0].name;
+    console.log(event);
+  }
+
 
   createSafeUrls(){
     this.posts = JSON.parse(JSON.stringify(this.posts));
     for (let index = 0; index < this.posts.length; index++) {
       if(this.posts[index].picture && this.posts[index].picture !== ''){
-        this.safeImg = this.utilService.decodeBase64ImageFileToSecurityTrustResource(this.posts[index].picture!);
-        console.log(this.posts[index].pictureSafeUrl);
+        this.posts[index].pictureSafeUrl = this.utilService.decodeBase64ImageFileToSecurityTrustResource(this.posts[index].picture!);
       }
     }
+  }
+
+  clearForm(){
+    this.form.reset();
+    this.selectedFileName = "";
   }
 
   ngOnDestroy(): void {

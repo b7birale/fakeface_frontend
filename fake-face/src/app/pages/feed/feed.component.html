@@ -18,7 +18,7 @@
       <button type="button">
         <label for="attach-file"><svg class="mr-2 cursor-pointer hover:text-gray-700 border rounded-full p-1 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" /></svg>
         </label>
-        <input (change)="onFileSelected($event)" id="attach-file" accept=".jpg,.jpeg,.png" type="file" class="sr-only">
+        <input (change)="onFileSelected($event)" id="attach-file" class="sr-only" type="file">
       </button>
       @if (selectedFileName){
         <label>{{selectedFileName}}</label>
@@ -66,8 +66,10 @@
             }
 
             @if(post.picture){
-                <img [src]="safeImg" loading="lazy">
+                <img [src]="post.pictureSafeUrl" loading="lazy">
             }
+
+            <button class="btn border border-gray-300 p-1 px-4 font-semibold cursor-pointer bg-black text-white ml-auto rounded-lg">Comments</button>
 
         </div>
             }

@@ -1,13 +1,17 @@
 import { Injectable } from "@angular/core";
 import { JwtDecodeModel } from "../../models/token/jwt.model";
 import { Observable, ReplaySubject } from "rxjs";
-import { DomSanitizer } from "@angular/platform-browser";
+import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
+import { DataUrl, NgxImageCompressService } from "ngx-image-compress";
 
 @Injectable({
     providedIn: 'root'
 })
 export class UtilService {
-    constructor(private _sanitizer: DomSanitizer) {}
+    constructor(
+        private _sanitizer: DomSanitizer,
+        private imageCompress: NgxImageCompressService
+    ) {}
 
     decodeToken(token: string): JwtDecodeModel {
         const _decodeToken = (token: string) => {
@@ -44,8 +48,9 @@ export class UtilService {
         return result;
     }
 
-    decodeBase64ImageFileToSecurityTrustResource(base64String: string) {
+    decodeBase64ImageFileToSecurityTrustResource(base64String: string): SafeResourceUrl {
         return this._sanitizer.bypassSecurityTrustResourceUrl(base64String)
     }
+
 
 }
