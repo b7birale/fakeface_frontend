@@ -20,6 +20,32 @@ export class CommentEffects{
         );
     });
 
+    add_comment$ = createEffect(() => {
+        return this.action$.pipe(
+            ofType(CommentActions.AddComment),
+            concatMap((action) => this.commentService.AddComment(action.data).pipe(
+                map((data) => {
+                    return CommentActions.AddCommentSuccess({ data });
+                }),
+                catchError(() => of(CommentActions.failure({ error: "Load add comment failure" })))
+            )
+            )
+        );
+    });
+
+    delete_comment$ = createEffect(() => {
+        return this.action$.pipe(
+            ofType(CommentActions.DeleteComment),
+            concatMap((action) => this.commentService.DeleteComment(action.data).pipe(
+                map((data) => {
+                    return CommentActions.DeleteCommentSuccess({ data });
+                }),
+                catchError(() => of(CommentActions.failure({ error: "Load delete comment failure" })))
+            )
+            )
+        );
+    });
+
 
     constructor(
         private action$: Actions,

@@ -20,3 +20,23 @@ export const GetCommentsByPostIdSuccess = createAction(
     '[Comments/API] Load GetCommentsByPostId Success',
     props<{ data: FeedComment[] }>()
 );
+
+export const AddComment= createAction(
+    '[Comments/API] Load AddComment',
+    props<{data: number }>()
+);
+
+export const AddCommentSuccess = createAction(
+    '[Comments/API]  Load AddComment Success',
+    props<{ data: boolean }>()
+);
+
+export const DeleteComment= createAction(
+    '[Comments/API] Load DeleteComment',
+    props<{data: number }>()
+);
+
+export const DeleteCommentSuccess = createAction(
+    '[Comments/API]  Load DeleteComment Success',
+    props<{ data: boolean }>()
+);

@@ -69,7 +69,9 @@
                 <img [src]="post.pictureSafeUrl" loading="lazy">
             }
 
-            <button class="btn border border-gray-300 p-1 px-4 font-semibold cursor-pointer bg-black text-white ml-auto rounded-lg">Comments</button>
+            <button (click)="showCommentsClick(post.postId)"
+            class="btn border border-gray-300 p-1 px-4 font-semibold cursor-pointer bg-black text-white ml-auto rounded-lg">
+            Comments</button>
 
         </div>
             }
@@ -100,7 +102,9 @@
                 </div>
             </div>
 
-            <img src="https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" class="mb-5 mt-3 img_center">
+            <div class="container">
+                <img src="https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" class="mb-5 mt-3 img_center">
+            </div>
 
 
             <!-- COMMENT SECTION -->
@@ -580,75 +584,3 @@
 
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--
-
-<div>
-<div>
-    <select (change)="reload()" [(ngModel)]="chosenImage">
-        <option *ngFor="let obj of feedObject" [ngValue]="obj">{{obj.id}}</option>
-    </select>
-</div>
-
-
-
-<div class="container" *ngIf="chosenImage">
-    <img class="feedImage" [src]="'assets/' + chosenImage.id + '.jpg'" />
-    <div class="break"></div>
-    <div>{{chosenImage.user_name}}</div>
-    <div class="break"></div>
-    <div>{{chosenImage.user_url}}</div>
-    <div class="break"></div>
-    <div>{{chosenImage.photo_url}}</div>
-
-    <div class="break"></div>
-    <div *ngIf="comments.length">
-        <table>
-            <tr>
-                <th>User</th>
-                <th>Comment</th>
-                <th>Date</th>
-            </tr>
-            <tr *ngFor="let comment of comments; let i = index;" [ngClass]="i % 2 === 0 ? 'table-header-even' : 'table-header-odd'">
-                <td>{{comment.username}}</td>
-                <td>{{comment.comment}}</td>
-                <td>{{comment.date | dateFormat}}</td>
-            </tr>
-        </table>
-    </div>
-
-
-    <div class="break"></div>
-    <form [formGroup]="commentsForm" (ngSubmit)="addComment()">
-        <div>
-            <label for="username">Username: </label> 
-            <input type="text" formControlName="username"/>
-        </div>
-        <div class="break"></div>
-        <div>
-            <textarea rows="10" cols="50" formControlName="comment"></textarea>
-        </div>
-        <div class="break"></div>
-        <div>
-            <button type="submit">Add</button>
-        </div>
-    </form>
-
-</div> 
-
-
-</div>
-
--->

@@ -9,6 +9,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import { TOAST_STATE, ToastService } from '../../shared/toast/toast.service';
 import * as PostAction from '../../shared/services/post/post-store/post.action';
 import * as FriendAction from '../../shared/services/friend/friend-store/friend.action';
+import * as CommentAction from '../../shared/services/comment/comment-store/comment.action';
 import { Store } from '@ngrx/store';
 import { Post } from '../../shared/models/post/post.model';
 import { PostFeed } from '../../shared/models/post/post-feed.model';
@@ -86,6 +87,12 @@ export class FeedComponent implements OnInit, OnDestroy {
         if(userId){
           this.store.dispatch(FriendAction.GetFriendsByUserId({data: userId}));
         }
+      }
+    })
+
+    action$?.pipe(ofType(CommentAction.GetCommentsByPostIdSuccess), takeUntil(this.destroy$)).subscribe((response) => {
+      if (response.data !== null && response.data !== undefined) {
+        console.log(response.data);
       }
     })
 
@@ -171,6 +178,12 @@ export class FeedComponent implements OnInit, OnDestroy {
 
   postClick(){
     this.getFormValues();
+  }
+
+  showCommentsClick(postId: number){
+    if(postId){
+      CommentAction.GetCommentsByPostId({data: postId});
+    }
   }
 
   onFileSelected(event: any) {

@@ -1,8 +1,8 @@
 import { SafeUrl } from "@angular/platform-browser";
 
 export interface PostFeed {
-    post_id: number;
-    user_id: number;
+    postId: number;
+    userId: number;
     picture?: string;
     content: string;
     date: Date;

@@ -29,7 +29,14 @@ import * as CommentReducer from './shared/services/comment/comment-store/comment
 import * as CommentState from './shared/services/comment/comment-store/comment.state';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { CommentService } from './shared/services/comment/comment.service';
-
+import { ChatroomEffects } from './shared/services/chatroom/chatroom-store/chatroom.effects';
+import * as ChatroomReducer from './shared/services/chatroom/chatroom-store/chatroom.reducer';
+import * as ChatroomState from './shared/services/chatroom/chatroom-store/chatroom.state';
+import { ChatroomService } from './shared/services/chatroom/chatroom.service';
+import { MessageEffects } from './shared/services/message/message-store/message.effects';
+import * as MessageReducer from './shared/services/message/message-store/message.reducer';
+import * as MessageState from './shared/services/message/message-store/message.state';
+import { MessageService } from './shared/services/message/message.service';
 
 @NgModule({
   declarations: [
@@ -54,6 +61,10 @@ import { CommentService } from './shared/services/comment/comment.service';
     EffectsModule.forFeature([PostEffects]),
     StoreModule.forFeature(CommentState.COMMENT_FEATURE_KEY, CommentReducer.reducer),
     EffectsModule.forFeature([CommentEffects]),
+    StoreModule.forFeature(ChatroomState.CHATROOM_FEATURE_KEY, ChatroomReducer.reducer),
+    EffectsModule.forFeature([ChatroomEffects]),
+    StoreModule.forFeature(MessageState.MESSAGE_FEATURE_KEY, MessageReducer.reducer),
+    EffectsModule.forFeature([MessageEffects]),
     StoreModule.forRoot({}),
     EffectsModule.forRoot([])
   ],
@@ -62,10 +73,17 @@ import { CommentService } from './shared/services/comment/comment.service';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [UserService, PostService, FriendService, CommentService, NgxImageCompressService, {
-    provide: HTTP_INTERCEPTORS,
-    useClass: LoaderInterceptor,
-    multi: true
+  providers: [
+    UserService,
+    PostService,
+    FriendService,
+    CommentService,
+    ChatroomService,
+    MessageService,
+    NgxImageCompressService, {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptor,
+      multi: true
   }],
   bootstrap: [AppComponent]
 })

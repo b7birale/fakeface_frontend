@@ -1,7 +1,7 @@
 import { Action, createReducer, on} from "@ngrx/store";
 import { State } from "./comment.state";
 import { createEntityAdapter, EntityAdapter } from "@ngrx/entity";
-import * as FriendActions from "../friend-store/friend.action";
+import * as CommentActions from "../comment-store/comment.action";
 
 export const TokenAdapter: EntityAdapter<string> =
     createEntityAdapter<string>();
@@ -11,13 +11,13 @@ export const initialState: State = ({
     data: null
 });
 
-const FriendReducer = createReducer(
+const CommentReducer = createReducer(
     initialState,
-    on(FriendActions.init, () =>
+    on(CommentActions.init, () =>
         ({ ...initialState })
     ),
     on(
-        FriendActions.GetFriendsByUserIdSuccess, (state, { data }) => ({
+        CommentActions.GetCommentsByPostIdSuccess, (state, { data }) => ({
             ...state,
             data: data,
             loaded: true
@@ -26,5 +26,5 @@ const FriendReducer = createReducer(
 )
 
 export function reducer(state: State | undefined, aciton: Action){
-    return FriendReducer(state,aciton);
+    return CommentReducer(state,aciton);
 }
