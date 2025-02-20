@@ -32,6 +32,19 @@ export class UserEffects{
         );
     });
 
+    get_user_to_profile$ = createEffect(() => {
+        return this.action$.pipe(
+            ofType(UserActions.GetUserToProfile),
+            concatMap((action) => this.userService.getUserToProfile(action.data).pipe(
+                map((data) => {
+                    return UserActions.GetUserToProfileSuccess({ data });
+                }),
+                catchError(() => of(UserActions.failure({ error: "Load getUserToProfile failure" })))
+            )
+            )
+        );
+    });
+
 
     constructor(
         private action$: Actions,

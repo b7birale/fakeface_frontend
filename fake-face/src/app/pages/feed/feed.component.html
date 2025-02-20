@@ -73,6 +73,12 @@
             class="btn border border-gray-300 p-1 px-4 font-semibold cursor-pointer bg-black text-white ml-auto rounded-lg">
             Comments</button>
 
+            @if(commentsMap.get(post.postId)!.length > 0){
+                @for(comment of commentsMap.get(post.postId); track $index){
+                    <p>comment</p>
+                }
+            }
+
         </div>
             }
         }

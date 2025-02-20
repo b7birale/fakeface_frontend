@@ -32,3 +32,13 @@ export const SignUpSuccess = createAction(
     '[Token/API] Load Token SignUp Success',
     props<{ data: boolean }>()
 );
+
+export const GetUserToProfile = createAction(
+    '[Token/API] Load getUserToProfile',
+    props<{data: number }>()
+);
+
+export const GetUserToProfileSuccess = createAction(
+    '[Token/API] Load Token getUserToProfile Success',
+    props<{ data: User }>()
+);

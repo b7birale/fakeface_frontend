@@ -16,6 +16,7 @@ import { PostFeed } from '../../shared/models/post/post-feed.model';
 import { UtilService } from '../../shared/services/util/util.service';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { DataUrl, NgxImageCompressService } from 'ngx-image-compress';
+import { FeedComment } from '../../shared/models/comment/comment.feed.model';
 
 
 @Component({
@@ -55,6 +56,8 @@ export class FeedComponent implements OnInit, OnDestroy {
     date: new Date()
   })
 
+  commentsMap: Map<number, FeedComment[]> = new Map<number, FeedComment[]>();
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -68,6 +71,7 @@ export class FeedComponent implements OnInit, OnDestroy {
     action$?.pipe(ofType(PostAction.GetPostsByUserIdsSuccess), takeUntil(this.destroy$)).subscribe((response) => {
       if (response.data !== null && response.data !== undefined) {
         this.posts = JSON.parse(JSON.stringify(response.data));
+        this.createCommentsMap(this.posts);
         this.createSafeUrls();
       }
       this.clearForm();
@@ -93,6 +97,7 @@ export class FeedComponent implements OnInit, OnDestroy {
     action$?.pipe(ofType(CommentAction.GetCommentsByPostIdSuccess), takeUntil(this.destroy$)).subscribe((response) => {
       if (response.data !== null && response.data !== undefined) {
         console.log(response.data);
+        this.commentsMap.set(JSON.parse(JSON.stringify(response.data[0].postId)), JSON.parse(JSON.stringify(response.data)));
       }
     })
 
@@ -182,8 +187,15 @@ export class FeedComponent implements OnInit, OnDestroy {
 
   showCommentsClick(postId: number){
     if(postId){
-      CommentAction.GetCommentsByPostId({data: postId});
+      this.createCommentsMap(this.posts);
+      this.store.dispatch(CommentAction.GetCommentsByPostId({data: postId}));
     }
+  }
+
+  createCommentsMap(posts: PostFeed[]){
+    posts.forEach(x => {
+      this.commentsMap.set(x.postId, []);
+    })
   }
 
   onFileSelected(event: any) {

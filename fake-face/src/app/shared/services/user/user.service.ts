@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, Observable, of } from "rxjs";
 import { User } from "../../models/user/user.model";
@@ -10,7 +10,8 @@ import { TokenModel } from "../../models/token/token.model";
   })
   export class UserService {
     private apiUrl = 'https://localhost:7258/api/authentication';  // Replace with your actual API URL , localhost..
-  
+    private userApiUrl = 'https://localhost:7258/api/user';
+
     private httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
@@ -40,6 +41,13 @@ import { TokenModel } from "../../models/token/token.model";
 
       return this.http.post<boolean>(this.apiUrl + "/SignUp", user)
         .pipe(catchError(this.handleError<boolean>()));
+    }
+
+    getUserToProfile(user_id: number): Observable<User> {
+      let queryParam = new HttpParams().set('user_id', user_id.toString());
+      let url = this.userApiUrl + "/GetUserToProfile";
+      return this.http.get<User>(url, {params: queryParam})
+        .pipe(catchError(this.handleError<User>()));
     }
   
     // Error handling method
