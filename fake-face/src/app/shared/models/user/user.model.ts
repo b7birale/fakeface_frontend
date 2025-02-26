@@ -4,7 +4,7 @@ export interface User {
     firstname: string;
     lastname: string;
     user_id: number;
-    birthdate: Date;
+    birthDate: Date;
     profile_picture?: string;
     qr_code?: string;
 }

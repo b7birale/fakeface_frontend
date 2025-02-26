@@ -49,6 +49,13 @@ import { TokenModel } from "../../models/token/token.model";
       return this.http.get<User>(url, {params: queryParam})
         .pipe(catchError(this.handleError<User>()));
     }
+
+    modifyUserData(user: User): Observable<boolean> {
+      let queryParam = new HttpParams().set('user', user.toString());
+      let url = this.userApiUrl + "/GetUserToProfile";
+      return this.http.get<boolean>(url, {params: queryParam})
+        .pipe(catchError(this.handleError<boolean>()));
+    }
   
     // Error handling method
     private handleError<T>(operation = 'operation', result?: T) {

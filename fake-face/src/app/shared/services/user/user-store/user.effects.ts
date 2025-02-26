@@ -45,6 +45,19 @@ export class UserEffects{
         );
     });
 
+    modify_user_data$ = createEffect(() => {
+        return this.action$.pipe(
+            ofType(UserActions.ModifyUserData),
+            concatMap((action) => this.userService.modifyUserData(action.data).pipe(
+                map((data) => {
+                    return UserActions.ModifyUserDataSuccess({ data });
+                }),
+                catchError(() => of(UserActions.failure({ error: "Load modifyUserData failure" })))
+            )
+            )
+        );
+    });
+
 
     constructor(
         private action$: Actions,

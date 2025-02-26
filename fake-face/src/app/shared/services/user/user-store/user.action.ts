@@ -42,3 +42,13 @@ export const GetUserToProfileSuccess = createAction(
     '[Token/API] Load Token getUserToProfile Success',
     props<{ data: User }>()
 );
+
+export const ModifyUserData = createAction(
+    '[Token/API] Load ModifyUserData',
+    props<{data: User }>()
+);
+
+export const ModifyUserDataSuccess = createAction(
+    '[Token/API] Load Token ModifyUserData Success',
+    props<{ data: boolean }>()
+);

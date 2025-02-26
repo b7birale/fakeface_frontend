@@ -23,7 +23,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     firstname: '',
     lastname: '',
     user_id: 0,
-    birthdate: new Date()
+    birthDate: new Date()
   }
   data$: Observable<boolean> | undefined;
 
@@ -61,7 +61,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.user.password = this.form.controls['password'].value;
     this.user.firstname = this.form.controls['firstname'].value;
     this.user.lastname = this.form.controls['lastname'].value;
-    this.user.birthdate = this.form.controls['birthdate'].value;
+    this.user.birthDate = this.form.controls['birthdate'].value;
   }
 
   register(){

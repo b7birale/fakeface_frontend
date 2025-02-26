@@ -37,6 +37,13 @@ const UserReducer = createReducer(
             loaded: true
         })
     ),
+    on(
+        UserActions.ModifyUserDataSuccess, (state, { data }) => ({
+            ...state,
+            data: data,
+            loaded: true
+        })
+    ),
 )
 
 export function reducer(state: State | undefined, aciton: Action){
