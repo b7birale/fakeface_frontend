@@ -3,8 +3,8 @@ export interface User {
     password: string;
     firstname: string;
     lastname: string;
-    user_id: number;
+    userId: number;
     birthDate: Date;
-    profile_picture?: string;
+    profilePicture?: string;
     qr_code?: string;
 }

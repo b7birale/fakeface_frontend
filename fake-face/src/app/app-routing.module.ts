@@ -11,6 +11,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/friends/friends.module').then(m => m.FriendsModule) 
   },
   { 
+    path: 'people', 
+    loadChildren: () => import('./pages/people/people.module').then(m => m.PeopleModule) 
+  },
+  { 
     path: 'feed', 
     loadChildren: () => import('./pages/feed/feed.module').then(m => m.FeedModule) 
   },

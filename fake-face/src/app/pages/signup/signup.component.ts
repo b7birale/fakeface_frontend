@@ -22,7 +22,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     password: '',
     firstname: '',
     lastname: '',
-    user_id: 0,
+    userId: 0,
     birthDate: new Date()
   }
   data$: Observable<boolean> | undefined;

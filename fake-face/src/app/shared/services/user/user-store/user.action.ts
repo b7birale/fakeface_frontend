@@ -2,6 +2,7 @@ import { createAction, props } from "@ngrx/store";
 import { TokenModel } from "../../../models/token/token.model";
 import { LoginUser } from "../../../models/login_user/login_user.model";
 import { User } from "../../../models/user/user.model";
+import { UpdateUser } from "../../../models/user/user-update.model";
 
 export const init = createAction(
     '[User/API] Load User',
@@ -45,7 +46,7 @@ export const GetUserToProfileSuccess = createAction(
 
 export const ModifyUserData = createAction(
     '[Token/API] Load ModifyUserData',
-    props<{data: User }>()
+    props<{data: UpdateUser }>()
 );
 
 export const ModifyUserDataSuccess = createAction(

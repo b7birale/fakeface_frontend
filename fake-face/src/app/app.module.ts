@@ -37,6 +37,10 @@ import { MessageEffects } from './shared/services/message/message-store/message.
 import * as MessageReducer from './shared/services/message/message-store/message.reducer';
 import * as MessageState from './shared/services/message/message-store/message.state';
 import { MessageService } from './shared/services/message/message.service';
+import { PeopleEffects } from './shared/services/people/people-store/people.effect';
+import * as PeopleReducer from './shared/services/people/people-store/people.reducer';
+import * as PeopleState from './shared/services/people/people-store/people.state';
+import { PeopleService } from './shared/services/people/people.service';
 
 @NgModule({
   declarations: [
@@ -65,6 +69,8 @@ import { MessageService } from './shared/services/message/message.service';
     EffectsModule.forFeature([ChatroomEffects]),
     StoreModule.forFeature(MessageState.MESSAGE_FEATURE_KEY, MessageReducer.reducer),
     EffectsModule.forFeature([MessageEffects]),
+    StoreModule.forFeature(PeopleState.PEOPLE_FEATURE_KEY, PeopleReducer.reducer),
+    EffectsModule.forFeature([PeopleEffects]),
     StoreModule.forRoot({}),
     EffectsModule.forRoot([])
   ],
@@ -80,6 +86,7 @@ import { MessageService } from './shared/services/message/message.service';
     CommentService,
     ChatroomService,
     MessageService,
+    PeopleService,
     NgxImageCompressService, {
       provide: HTTP_INTERCEPTORS,
       useClass: LoaderInterceptor,

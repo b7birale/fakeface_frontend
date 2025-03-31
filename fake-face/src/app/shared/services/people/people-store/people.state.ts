@@ -1,11 +1,11 @@
 import { TokenModel } from "../../../models/token/token.model";
-import { UpdateUser } from "../../../models/user/user-update.model";
+import { UserPerson } from "../../../models/user/user-person.model";
 import { User } from "../../../models/user/user.model";
 
-export const USER_FEATURE_KEY = 'USER';
+export const PEOPLE_FEATURE_KEY = 'PEOPLE';
 
 export interface State{
     loaded:boolean;
     error?:string | null;
-    data: null | number | TokenModel | boolean | UpdateUser | User;
+    data: null | number | TokenModel | boolean | UserPerson[] | User;
 }

@@ -8,6 +8,7 @@ import { User } from '../../shared/models/user/user.model';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { UtilService } from '../../shared/services/util/util.service';
 import { DataUrl, NgxImageCompressService } from 'ngx-image-compress';
+import { UpdateUser } from '../../shared/models/user/user-update.model';
 
 @Component({
   selector: 'app-profile',
@@ -25,13 +26,30 @@ export class ProfileComponent implements OnInit, OnDestroy{
   selectedFileEncoded: string = '';
   selectedFileName?: string = undefined;
   compressedImage: string = "";
-  user: User = {
+  old_user: User = {
     email: '',
     password: '',
     firstname: '',
     lastname: '',
-    user_id: 0,
-    birthDate: new Date()
+    userId: 0,
+    birthDate: new Date(),
+  }
+  new_user: UpdateUser = {
+    email: '',
+    password: '',
+    firstname: '',
+    lastname: '',
+    userId: 0,
+    birthDate: undefined
+  }
+
+  update_user: UpdateUser = {
+    email: '',
+    password: '',
+    firstname: '',
+    lastname: '',
+    userId: 0,
+    birthDate: undefined
   }
 
   constructor(
@@ -44,7 +62,7 @@ export class ProfileComponent implements OnInit, OnDestroy{
     action$?.pipe(ofType(UserAction.GetUserToProfileSuccess), takeUntil(this.destroy$)).subscribe((response) => {
       if (response.data !== null && response.data !== undefined) {
         console.log(response.data);
-        this.user = response.data;
+        this.old_user = structuredClone(response.data);
         this.patchUserData(response.data);
       }
 
@@ -65,8 +83,8 @@ export class ProfileComponent implements OnInit, OnDestroy{
     this.form.controls["lastname"].patchValue(user.lastname);
     this.form.controls["birthdate"].patchValue(user.birthDate.toString());
 
-    if(user.profile_picture){
-      this.safeImg = this.utilService.decodeBase64ImageFileToSecurityTrustResource(user.profile_picture);
+    if(user.profilePicture){
+      this.safeImg = this.utilService.decodeBase64ImageFileToSecurityTrustResource(user.profilePicture);
     }
   }
 
@@ -110,6 +128,66 @@ export class ProfileComponent implements OnInit, OnDestroy{
     } 
   }
 
+  updateClick(){
+    let update = this.compareUsers();
+    console.log(update)
+    if(update === true){
+      this.store.dispatch(UserAction.ModifyUserData({
+        data: this.update_user
+      }))
+    }
+  }
+
+  compareUsers(){
+    this.update_user = {
+      email: '',
+      password: '',
+      firstname: '',
+      lastname: '',
+      userId: 0,
+      birthDate: undefined
+    };
+
+    let change: boolean = false;
+
+    this.new_user.firstname = this.form.controls["firstname"].value;
+    this.new_user.lastname = this.form.controls["lastname"].value;
+    this.new_user.password = this.form.controls["password"].value;
+    this.new_user.birthDate = this.form.controls["birthdate"].value;
+
+    if(this.compressedImage && this.compressedImage.length > 0){
+      this.update_user.profilePicture = this.compressedImage;
+      change = true;
+    }
+    console.log(this.compressedImage)
+
+    if(this.new_user.firstname !== this.old_user.firstname){
+      this.update_user.firstname = this.new_user.firstname;
+      change = true;
+    }
+
+    if(this.new_user.lastname !== this.old_user.lastname){
+      this.update_user.lastname = this.new_user.lastname;
+      change = true;
+    }
+
+    if(this.new_user.password && this.new_user.password.length > 0){
+      this.update_user.password = this.new_user.password;
+      change = true;
+    }
+
+    if(this.new_user.birthDate && this.new_user.birthDate !== undefined && this.new_user.birthDate !== this.old_user.birthDate){
+      this.update_user.birthDate = this.new_user.birthDate;
+      change = true;
+    }
+
+    this.update_user.userId = this.old_user.userId;
+
+    console.log(this.update_user);
+
+    return change;
+
+  }
 
   ngOnDestroy(): void {
     throw new Error('Method not implemented.');

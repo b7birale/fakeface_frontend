@@ -4,6 +4,7 @@ import { catchError, Observable, of } from "rxjs";
 import { User } from "../../models/user/user.model";
 import { LoginUser } from "../../models/login_user/login_user.model";
 import { TokenModel } from "../../models/token/token.model";
+import { UpdateUser } from "../../models/user/user-update.model";
 
 @Injectable({
     providedIn: 'root',
@@ -50,10 +51,9 @@ import { TokenModel } from "../../models/token/token.model";
         .pipe(catchError(this.handleError<User>()));
     }
 
-    modifyUserData(user: User): Observable<boolean> {
-      let queryParam = new HttpParams().set('user', user.toString());
-      let url = this.userApiUrl + "/GetUserToProfile";
-      return this.http.get<boolean>(url, {params: queryParam})
+    modifyUserData(user: UpdateUser): Observable<boolean> {
+      let url = this.userApiUrl + "/ModifyUserData";
+      return this.http.post<boolean>(url, user)
         .pipe(catchError(this.handleError<boolean>()));
     }
   
