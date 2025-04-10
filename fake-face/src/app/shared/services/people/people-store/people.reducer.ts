@@ -23,6 +23,13 @@ const PeopleReducer = createReducer(
             loaded: true
         })
     ),
+    on(
+        PeopleActions.SendFriendRequestSuccess, (state, { data }) => ({
+            ...state,
+            data: data,
+            loaded: true
+        })
+    ),
 )
 
 export function reducer(state: State | undefined, aciton: Action){

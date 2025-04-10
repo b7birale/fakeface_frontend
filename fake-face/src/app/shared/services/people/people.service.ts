@@ -6,6 +6,7 @@ import { LoginUser } from "../../models/login_user/login_user.model";
 import { TokenModel } from "../../models/token/token.model";
 import { UpdateUser } from "../../models/user/user-update.model";
 import { UserPerson } from "../../models/user/user-person.model";
+import { NewFriendRequest } from "../../models/friend_request/new_friend_request.model";
 
 @Injectable({
     providedIn: 'root',
@@ -25,6 +26,13 @@ import { UserPerson } from "../../models/user/user-person.model";
       let url = this.peopleApiUrl + "/users";
       return this.http.get<User[]>(url, {params: queryParam})
         .pipe(catchError(this.handleError<User[]>('getAllUsers', [])));
+    }
+
+     // Send friend request
+     sendFriendRequest(dto: NewFriendRequest): Observable<boolean> {
+      let url = this.peopleApiUrl + "/friend-request";
+      return this.http.post<boolean>(url, dto)
+        .pipe(catchError(this.handleError<boolean>('friend-request', false)));
     }
   
     // Error handling method

@@ -18,6 +18,19 @@ export class PeopleEffects{
             )
         );
     });
+
+    sendFriendRequest$ = createEffect(() => {
+        return this.action$.pipe(
+            ofType(PeopleActions.SendFriendRequest),
+            concatMap((action) => this.peopleService.sendFriendRequest(action.data).pipe(
+                map((data) => {
+                    return PeopleActions.SendFriendRequestSuccess({ data });
+                }),
+                catchError(() => of(PeopleActions.failure({ error: "Load SendFriendRequest failure" })))
+            )
+            )
+        );
+    });
     
 
     constructor(

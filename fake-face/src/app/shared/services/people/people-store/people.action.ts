@@ -4,6 +4,7 @@ import { LoginUser } from "../../../models/login_user/login_user.model";
 import { User } from "../../../models/user/user.model";
 import { UpdateUser } from "../../../models/user/user-update.model";
 import { UserPerson } from "../../../models/user/user-person.model";
+import { NewFriendRequest } from "../../../models/friend_request/new_friend_request.model";
 
 export const init = createAction(
     '[People/API] Load People',
@@ -25,3 +26,12 @@ export const GellAllUsersSuccess = createAction(
     props<{ data: UserPerson[] }>()
 );
 
+export const SendFriendRequest = createAction(
+    '[People/API] Load SendFriendRequest',
+    props<{data: NewFriendRequest }>()
+);
+
+export const SendFriendRequestSuccess = createAction(
+    '[People/API] Load SendFriendRequest Success',
+    props<{ data: boolean }>()
+);

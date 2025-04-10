@@ -7,6 +7,7 @@ import * as PeopleAction from '../../shared/services/people/people-store/people.
 import { Subject, takeUntil } from 'rxjs';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { UserPerson } from '../../shared/models/user/user-person.model';
+import { NewFriendRequest } from '../../shared/models/friend_request/new_friend_request.model';
 
 @Component({
   selector: 'app-people',
@@ -20,6 +21,7 @@ export class PeopleComponent implements OnInit {
   safeImg!: SafeResourceUrl;
   userId: number = 0;
   people: UserPerson[] = []
+  invitedUsers: number[] = []
 
   constructor(
     private router: Router,
@@ -50,6 +52,17 @@ export class PeopleComponent implements OnInit {
         this.people[index].pictureSafeUrl = this.utilService.decodeBase64ImageFileToSecurityTrustResource(this.people[index].profilePicture!);
       }
     }
+  }
+
+  sendFriendRequest(userId: number){
+    if (!this.invitedUsers.includes(userId)){
+      this.invitedUsers.push(userId)
+    }
+    let dto: NewFriendRequest = {
+      senderUserId: this.userId,
+      recieverUserId: userId
+    }
+    this.store.dispatch(PeopleAction.SendFriendRequest({data: dto}));
   }
 
 
