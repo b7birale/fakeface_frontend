@@ -1,0 +1,36 @@
+@if(requests && requests.length > 0){
+    <div class="space-y-4 p-4 md:px-20">
+      @for(request of requests; track $index){
+        <div class="flex items-center justify-between bg-white rounded-xl shadow-md p-4">
+          <div class="flex items-center space-x-4">
+            <img
+              class="w-16 h-16 rounded-full object-cover"
+              [src]="request.profilePicture ? request.pictureSafeUrl : '../../../assets/anonymous.jpg'"
+              loading="lazy"
+              alt="Profile picture"
+            />
+            <div class="text-lg font-medium text-gray-800">
+              {{ request.firstname }} {{ request.lastname }}
+            </div>
+          </div>
+          <div class="flex space-x-2">
+            <button
+              (click)="rejectFriendRequest(request)"
+              type="button"
+              class="text-white bg-hard_purple hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2"
+            >
+              Reject
+            </button>
+            <button
+              (click)="acceptFriendRequest(request)"
+              type="button"
+              class="text-white bg-hard_purple hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2"
+            >
+              Accept
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+  

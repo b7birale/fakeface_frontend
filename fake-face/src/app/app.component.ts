@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -6,10 +6,13 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
+
   title = 'fake-face';
   page = 'feed';
 
   changePage(selectedPage: string){
     this.page = selectedPage;
   }
+
+
 }

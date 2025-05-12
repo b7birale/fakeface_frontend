@@ -1,0 +1,40 @@
+.dropdownmenu {
+    display: none;
+    position: absolute;
+    list-style-type: none;
+    padding: 0;
+}
+
+.dropdownmenu.show {
+    display: block;
+}
+
+.notificationmenu{
+    display: none;
+    position: absolute;
+    list-style-type: none;
+    padding: 0;
+}
+
+.notificationmenu.show {
+    display: block;
+}
+
+.hamburgermenu {
+    display: none;
+    position: absolute;
+    list-style-type: none;
+    padding: 0;
+}
+
+.hamburgermenu.show {
+    display: block;
+    //background-color: #005668;
+    background-color: black;
+}
+
+/*
+.menu_logo {
+    max-width: 30%;
+    height: auto;
+}*/
