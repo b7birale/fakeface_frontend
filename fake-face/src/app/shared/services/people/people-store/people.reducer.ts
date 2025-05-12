@@ -17,7 +17,7 @@ const PeopleReducer = createReducer(
         ({ ...initialState })
     ),
     on(
-        PeopleActions.GellAllUsersSuccess, (state, { data }) => ({
+        PeopleActions.GetAllUsersSuccess, (state, { data }) => ({
             ...state,
             data: data,
             loaded: true
@@ -25,6 +25,27 @@ const PeopleReducer = createReducer(
     ),
     on(
         PeopleActions.SendFriendRequestSuccess, (state, { data }) => ({
+            ...state,
+            data: data,
+            loaded: true
+        })
+    ),
+    on(
+        PeopleActions.AcceptFriendRequestSuccess, (state, { data }) => ({
+            ...state,
+            data: data,
+            loaded: true
+        })
+    ),
+    on(
+        PeopleActions.RejectFriendRequestSuccess, (state, { data }) => ({
+            ...state,
+            data: data,
+            loaded: true
+        })
+    ),
+    on(
+        PeopleActions.GetFriendRequestsSuccess, (state, { data }) => ({
             ...state,
             data: data,
             loaded: true

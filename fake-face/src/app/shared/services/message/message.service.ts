@@ -16,7 +16,7 @@ import { Message } from "../../models/message/message.model";
     constructor(private http: HttpClient) {}
   
     GetMessagesByChatroomId(chatroom_id: number): Observable<Message[]> {
-      let url = this.apiUrl + "/GetMessages";
+      let url = this.apiUrl + "/get-messages";
       let queryParam = new HttpParams().set('chatroom_id', chatroom_id.toString());
       console.log(queryParam);
       return this.http.get<Message[]>(url, {params: queryParam}
@@ -24,18 +24,15 @@ import { Message } from "../../models/message/message.model";
         .pipe(catchError(this.handleError<Message[]>('GetMessages', [])));
     }
 
-    SendMessage(chatroom_id: number, content: string): Observable<boolean> {
-      let url = this.apiUrl + "/SendMessage";
-      let queryParam = new HttpParams().set('chatroom_id', chatroom_id.toString());
-      queryParam.set('content', content);
-      console.log(queryParam);
-      return this.http.get<boolean>(url, {params: queryParam}
+    SendMessage(message: Message): Observable<boolean> {
+      let url = this.apiUrl + "/send-message";
+      return this.http.post<boolean>(url, message
       )
         .pipe(catchError(this.handleError<boolean>('SendMessage', false)));
     }
     
     DeleteMessage(message_id: number): Observable<boolean> {
-      let url = this.apiUrl + "/DeleteMessage";
+      let url = this.apiUrl + "/delete-message";
       let queryParam = new HttpParams().set('message_id', message_id.toString());
       console.log(queryParam);
       return this.http.get<boolean>(url, {params: queryParam}

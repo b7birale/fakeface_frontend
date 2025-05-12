@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { Chatroom } from "../../../models/chatroom/chatroom.model";
+import { ChatroomModel } from "../../../models/chatroom/chatroom.model";
 
 export const init = createAction(
     '[Chatrooms/API] Load Chatrooms Init',
@@ -18,17 +18,17 @@ export const GetChatroomsByUserId = createAction(
 
 export const GetChatroomsByUserIdSuccess = createAction(
     '[Chatrooms/API] Load GetChatroomsByUserId Success',
-    props<{ data: Chatroom[] }>()
+    props<{ data: ChatroomModel[] }>()
 );
 
 export const CreateChatroom = createAction(
     '[Chatrooms/API] Load CreateChatroom',
-    props<{data: string }>()
+    props<{data: ChatroomModel }>()
 );
 
 export const CreateChatroomSuccess = createAction(
     '[Chatrooms/API]  Load CreateChatroom Success',
-    props<{ data: boolean }>()
+    props<{ data: number }>()
 );
 
 export const DeleteChatroom = createAction(

@@ -5,6 +5,7 @@ import { User } from "../../../models/user/user.model";
 import { UpdateUser } from "../../../models/user/user-update.model";
 import { UserPerson } from "../../../models/user/user-person.model";
 import { NewFriendRequest } from "../../../models/friend_request/new_friend_request.model";
+import { FriendRequest } from "../../../models/friend_request/friend_request.model";
 
 export const init = createAction(
     '[People/API] Load People',
@@ -16,12 +17,12 @@ export const failure = createAction(
     props<{ error: any }>()
 );
 
-export const GellAllUsers = createAction(
+export const GetAllUsers = createAction(
     '[People/API] Load GetAllUsers',
     props<{data: string }>()
 );
 
-export const GellAllUsersSuccess = createAction(
+export const GetAllUsersSuccess = createAction(
     '[People/API] Load GetAllUsers Success',
     props<{ data: UserPerson[] }>()
 );
@@ -34,4 +35,34 @@ export const SendFriendRequest = createAction(
 export const SendFriendRequestSuccess = createAction(
     '[People/API] Load SendFriendRequest Success',
     props<{ data: boolean }>()
+);
+
+export const AcceptFriendRequest = createAction(
+    '[People/API] Load AcceptFriendRequest',
+    props<{data: FriendRequest }>()
+);
+
+export const AcceptFriendRequestSuccess = createAction(
+    '[People/API] Load AcceptFriendRequest Success',
+    props<{ data: boolean }>()
+);
+
+export const RejectFriendRequest = createAction(
+    '[People/API] Load RejectFriendRequest',
+    props<{data: FriendRequest }>()
+);
+
+export const RejectFriendRequestSuccess = createAction(
+    '[People/API] Load RejectFriendRequest Success',
+    props<{ data: boolean }>()
+);
+
+export const GetFriendRequests = createAction(
+    '[People/API] Load GetFriendRequests',
+    props<{data: number }>()
+);
+
+export const GetFriendRequestsSuccess = createAction(
+    '[People/API] Load GetFriendRequests Success',
+    props<{ data: NewFriendRequest[] }>()
 );

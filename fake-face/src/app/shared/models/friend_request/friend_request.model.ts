@@ -1,7 +1,7 @@
 export interface FriendRequest {
-    request_id: number;
-    sender_user_id: number;
-    reciever_user_id: number;
+    requestId: number;
+    senderUserId: number;
+    recieverUserId: number;
     accepted: boolean;
     rejected: boolean;
 }

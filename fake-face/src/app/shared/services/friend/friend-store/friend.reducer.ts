@@ -23,6 +23,13 @@ const FriendReducer = createReducer(
             loaded: true
         })
     ),
+    on(
+        FriendActions.AddFriendSuccess, (state, { data }) => ({
+            ...state,
+            data: data,
+            loaded: true
+        })
+    ),
 )
 
 export function reducer(state: State | undefined, aciton: Action){

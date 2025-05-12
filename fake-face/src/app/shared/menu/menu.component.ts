@@ -1,4 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Actions, ofType } from '@ngrx/effects';
+import { Subject, takeUntil } from 'rxjs';
+import * as UserAction from '../../shared/services/user/user-store/user.action';
+import { Router } from '@angular/router';
+import { UtilService } from '../services/util/util.service';
 
 @Component({
   selector: 'app-menu',
@@ -12,6 +17,18 @@ export class MenuComponent implements OnInit {
   isNotificationMenuOpen = false;
   isHamburgerMenuOpen = false;
   userId? : number = undefined;
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
+  constructor(
+    private router: Router,
+    private utilService: UtilService,
+    private action$?: Actions
+  ){
+    action$?.pipe(ofType(UserAction.LoginSuccess), takeUntil(this.destroy$)).subscribe((response) => {
+      let token = this.utilService.decodeToken(response.data.token!);
+      this.userId = Number(token.Id);
+    })
+  }
 
   ngOnInit(): void{
     this.userId = Number(localStorage.getItem("id"));
@@ -31,6 +48,11 @@ export class MenuComponent implements OnInit {
 
   hamburgerClick(){
     this.isHamburgerMenuOpen = !this.isHamburgerMenuOpen;
+  }
+
+  logOut(){
+    localStorage.clear();
+    this.router.navigate(["/login"]).then(() => window.location.reload());
   }
 
 }

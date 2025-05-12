@@ -77,7 +77,7 @@ export class FeedComponent implements OnInit, OnDestroy {
       this.clearForm();
     })
 
-    action$?.pipe(ofType(FriendAction.GetFriendsByUserIdSuccess), takeUntil(this.destroy$)).subscribe((response) => {
+    action$?.pipe(ofType(FriendAction.GetFriendsIdsByUserIdSuccess), takeUntil(this.destroy$)).subscribe((response) => {
       if (response.data !== null && response.data !== undefined) {
         let userids_str = this.createStringFromUserIds(response.data);
         this.store.dispatch(PostAction.GetPostsByUserIds({data: userids_str}));
@@ -107,7 +107,7 @@ export class FeedComponent implements OnInit, OnDestroy {
     this.initForm();
     this.userId = Number(localStorage.getItem("id"));
     if(this.userId){
-      this.store.dispatch(FriendAction.GetFriendsByUserId({data: this.userId.toString()}));
+      this.store.dispatch(FriendAction.GetFriendsIdsByUserId({data: this.userId.toString()}));
     }
   }
 

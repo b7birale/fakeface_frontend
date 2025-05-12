@@ -20,6 +20,32 @@ export class FriendEffects{
         );
     });
 
+    get_friends_ids_by_userid$ = createEffect(() => {
+        return this.action$.pipe(
+            ofType(FriendActions.GetFriendsIdsByUserId),
+            concatMap((action) => this.friendService.GetFriendsIdsByUserId(action.data).pipe(
+                map((data) => {
+                    return FriendActions.GetFriendsIdsByUserIdSuccess({ data });
+                }),
+                catchError(() => of(FriendActions.failure({ error: "Load friends ids failure" })))
+            )
+            )
+        );
+    });
+
+    add_friend$ = createEffect(() => {
+        return this.action$.pipe(
+            ofType(FriendActions.AddFriend),
+            concatMap((action) => this.friendService.AddFriend(action.data).pipe(
+                map((data) => {
+                    return FriendActions.AddFriendSuccess({ data });
+                }),
+                catchError(() => of(FriendActions.failure({ error: "Load add friend failure" })))
+            )
+            )
+        );
+    });
+
 
     constructor(
         private action$: Actions,

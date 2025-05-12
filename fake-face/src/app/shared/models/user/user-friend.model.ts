@@ -1,8 +1,7 @@
 import { SafeUrl } from "@angular/platform-browser";
 
-export interface NewFriendRequest {
-    senderUserId: number;
-    recieverUserId: number;
+export interface UserFriendModel {
+    userId?: number;
     firstname: string;
     lastname: string;
     profilePicture?: string;

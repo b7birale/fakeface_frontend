@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       if (response.data !== null && response.data !== undefined) {
         let token = this.utilService.decodeToken(response.data.token!);
         localStorage.setItem("token", response.data.token!);
-        localStorage.setItem("fisrtname", token.Firstname);
+        localStorage.setItem("firstname", token.Firstname);
         localStorage.setItem("lastname", token.Lastname);
         localStorage.setItem("email", token.Email!);
         localStorage.setItem("id", token.Id!);

@@ -22,6 +22,7 @@ export class PeopleComponent implements OnInit {
   userId: number = 0;
   people: UserPerson[] = []
   invitedUsers: number[] = []
+  searchText: string = ""
 
   constructor(
     private router: Router,
@@ -29,7 +30,7 @@ export class PeopleComponent implements OnInit {
     private store: Store,
     private action$?: Actions
   ){
-    action$?.pipe(ofType(PeopleAction.GellAllUsersSuccess), takeUntil(this.destroy$)).subscribe((response) => {
+    action$?.pipe(ofType(PeopleAction.GetAllUsersSuccess), takeUntil(this.destroy$)).subscribe((response) => {
       if (response.data !== null && response.data !== undefined) {
         this.people = response.data;
         this.createSafeUrls();
@@ -41,7 +42,7 @@ export class PeopleComponent implements OnInit {
   ngOnInit(): void {
     this.userId = Number(localStorage.getItem("id"));
     if(this.userId){
-      this.store.dispatch(PeopleAction.GellAllUsers({data: this.userId.toString()}));
+      this.store.dispatch(PeopleAction.GetAllUsers({data: this.userId.toString()}));
     }
   }
   
@@ -60,10 +61,16 @@ export class PeopleComponent implements OnInit {
     }
     let dto: NewFriendRequest = {
       senderUserId: this.userId,
-      recieverUserId: userId
+      recieverUserId: userId,
+      firstname: '',
+      lastname: ''
     }
     this.store.dispatch(PeopleAction.SendFriendRequest({data: dto}));
   }
 
+
+  get filteredUsers(): UserPerson[] {
+    return this.people.filter(x => x.lastname.toLowerCase().includes(this.searchText.toLowerCase()) || x.firstname.toLowerCase().includes(this.searchText.toLowerCase()));
+  }
 
 }

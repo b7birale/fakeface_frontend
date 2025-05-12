@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, Observable, of } from "rxjs";
-import { Chatroom } from "../../models/chatroom/chatroom.model";
+import { ChatroomModel } from "../../models/chatroom/chatroom.model";
 
 @Injectable({
     providedIn: 'root',
@@ -15,26 +15,24 @@ import { Chatroom } from "../../models/chatroom/chatroom.model";
   
     constructor(private http: HttpClient) {}
   
-    GetChatroomsByUserId(user_id: number): Observable<Chatroom[]> {
-      let url = this.apiUrl + "/GetChatrooms";
+    GetChatroomsByUserId(user_id: number): Observable<ChatroomModel[]> {
+      let url = this.apiUrl + "/get-chatrooms";
       let queryParam = new HttpParams().set('user_id', user_id.toString());
       console.log(queryParam);
-      return this.http.get<Chatroom[]>(url, {params: queryParam}
+      return this.http.get<ChatroomModel[]>(url, {params: queryParam}
       )
-        .pipe(catchError(this.handleError<Chatroom[]>('GetChatrooms', [])));
+        .pipe(catchError(this.handleError<ChatroomModel[]>('GetChatrooms', [])));
     }
 
-    CreateChatroom(name: string): Observable<boolean> {
-      let url = this.apiUrl + "/CreateChatroom";
-      let queryParam = new HttpParams().set('name', name);
-      console.log(queryParam);
-      return this.http.get<boolean>(url, {params: queryParam}
+    CreateChatroom(dto: ChatroomModel): Observable<number> {
+      let url = this.apiUrl + "/create-chatroom";
+      return this.http.post<number>(url, dto
       )
-        .pipe(catchError(this.handleError<boolean>('CreateChatroom', false)));
+        .pipe(catchError(this.handleError<number>('CreateChatroom', 0)));
     }
     
     DeleteChatroom(chatroom_id: number): Observable<boolean> {
-      let url = this.apiUrl + "/DeleteChatroom";
+      let url = this.apiUrl + "/celete-chatroom";
       let queryParam = new HttpParams().set('chatroom_id', chatroom_id.toString());
       console.log(queryParam);
       return this.http.get<boolean>(url, {params: queryParam}

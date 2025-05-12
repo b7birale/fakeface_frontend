@@ -23,7 +23,7 @@ export class MessageEffects{
     send_message$ = createEffect(() => {
         return this.action$.pipe(
             ofType(MessageActions.SendMessage),
-            concatMap((action) => this.messageService.SendMessage(action.data, action.text).pipe(
+            concatMap((action) => this.messageService.SendMessage(action.data).pipe(
                 map((data) => {
                     return MessageActions.SendMessageSuccess({ data });
                 }),

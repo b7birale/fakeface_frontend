@@ -1,4 +1,6 @@
-export interface Chatroom {
-    chatroom_id: number;
+export interface ChatroomModel {
+    chatroomId: number;
     name: string;
+    userIdOne: number;
+    userIdTwo: number;
 }

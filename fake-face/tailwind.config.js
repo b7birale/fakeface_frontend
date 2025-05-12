@@ -7,7 +7,7 @@ module.exports = {
     extend: {},
     colors: {
       'tiffany_blue': '#94BFBE',
-      'midnight_green': '#005668', //kód
+      'midnight_green': '#005668',
       'black': '#000',
       'hard_purple': 'rgb(101, 50, 221)',
       'fun_grey': '#e6e6e6',

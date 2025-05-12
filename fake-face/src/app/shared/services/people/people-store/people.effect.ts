@@ -8,10 +8,10 @@ import * as PeopleActions from "./people.action";
 export class PeopleEffects{
     getAllUsers$ = createEffect(() => {
         return this.action$.pipe(
-            ofType(PeopleActions.GellAllUsers),
+            ofType(PeopleActions.GetAllUsers),
             concatMap((action) => this.peopleService.getAllUsers(action.data).pipe(
                 map((data) => {
-                    return PeopleActions.GellAllUsersSuccess({ data });
+                    return PeopleActions.GetAllUsersSuccess({ data });
                 }),
                 catchError(() => of(PeopleActions.failure({ error: "Load GetAllUsers failure" })))
             )
@@ -31,7 +31,45 @@ export class PeopleEffects{
             )
         );
     });
+
+    acceptFriendRequest$ = createEffect(() => {
+        return this.action$.pipe(
+            ofType(PeopleActions.AcceptFriendRequest),
+            concatMap((action) => this.peopleService.acceptFriendRequest(action.data).pipe(
+                map((data) => {
+                    return PeopleActions.AcceptFriendRequestSuccess({ data });
+                }),
+                catchError(() => of(PeopleActions.failure({ error: "Load AcceptFriendRequest failure" })))
+            )
+            )
+        );
+    });
+
+    rejectFriendRequest$ = createEffect(() => {
+        return this.action$.pipe(
+            ofType(PeopleActions.RejectFriendRequest),
+            concatMap((action) => this.peopleService.rejectFriendRequest(action.data).pipe(
+                map((data) => {
+                    return PeopleActions.RejectFriendRequestSuccess({ data });
+                }),
+                catchError(() => of(PeopleActions.failure({ error: "Load RejectFriendRequest failure" })))
+            )
+            )
+        );
+    });
     
+    getFriendRequests$ = createEffect(() => {
+        return this.action$.pipe(
+            ofType(PeopleActions.GetFriendRequests),
+            concatMap((action) => this.peopleService.getFriendRequests(action.data).pipe(
+                map((data) => {
+                    return PeopleActions.GetFriendRequestsSuccess({ data });
+                }),
+                catchError(() => of(PeopleActions.failure({ error: "Load GetFriendRequests failure" })))
+            )
+            )
+        );
+    });
 
     constructor(
         private action$: Actions,

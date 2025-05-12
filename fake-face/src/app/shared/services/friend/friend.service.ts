@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, Observable, of } from "rxjs";
+import { UserFriendModel } from "../../models/user/user-friend.model";
 
 @Injectable({
     providedIn: 'root',
@@ -14,13 +15,31 @@ import { catchError, Observable, of } from "rxjs";
   
     constructor(private http: HttpClient) {}
   
-    GetFriendsByUserId(userId: string): Observable<number[]> {
-      let url = this.apiUrl + "/GetFriends";
+    GetFriendsIdsByUserId(userId: string): Observable<number[]> {
+      let url = this.apiUrl + "/GetFriendsIds";
       let queryParam = new HttpParams().set('userId', userId.toString());
       console.log(queryParam);
       return this.http.get<number[]>(url, {params: queryParam}
       )
-        .pipe(catchError(this.handleError<number[]>('GetFriends', [])));
+        .pipe(catchError(this.handleError<number[]>('GetFriendsIds', [])));
+    }
+
+    GetFriendsByUserId(userId: string): Observable<UserFriendModel[]> {
+      let url = this.apiUrl + "/GetFriends";
+      let queryParam = new HttpParams().set('userId', userId.toString());
+      console.log(queryParam);
+      return this.http.get<UserFriendModel[]>(url, {params: queryParam}
+      )
+        .pipe(catchError(this.handleError<UserFriendModel[]>('GetFriends', [])));
+    }
+
+    AddFriend(userId: string): Observable<boolean> {
+      let url = this.apiUrl + "/add-friend";
+      let queryParam = new HttpParams().set('userId', userId.toString());
+      console.log(queryParam);
+      return this.http.get<boolean>(url, {params: queryParam}
+      )
+        .pipe(catchError(this.handleError<boolean>('add-friend', false)));
     }
   
     // Error handling method

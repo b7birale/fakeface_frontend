@@ -23,7 +23,7 @@ export const GetMessagesByChatroomIdSuccess = createAction(
 
 export const SendMessage = createAction(
     '[Messages/API] Load SendMessage',
-    props<{data: number; text: string}>()
+    props<{data: Message}>()
 );
 
 export const SendMessageSuccess = createAction(
