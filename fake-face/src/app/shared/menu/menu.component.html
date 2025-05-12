@@ -1,27 +1,17 @@
-<nav class="bg-black w-full sticky top-0 z-10">
-  <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+<nav class="bg-[#000] w-full sticky top-0 z-50 shadow-lg">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="relative flex h-16 items-center justify-between">
+      <!-- Mobile menu button -->
       <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-        <!-- Mobile menu button-->
         <button type="button" (click)="hamburgerClick()"
-          class="relative inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+          class="relative inline-flex items-center justify-center rounded-md p-2 text-[#e6e6e6] hover:bg-[#6532dd]/30 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#6532dd]"
           aria-controls="mobile-menu" aria-expanded="false">
-          <span class="absolute -inset-5"></span>
+          <span class="absolute -inset-0.5"></span>
           <span class="sr-only">Open main menu</span>
-          <!--
-              Icon when menu is closed.
-  
-              Menu open: "hidden", Menu closed: "block"
-            -->
           <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
             aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
           </svg>
-          <!--
-              Icon when menu is open.
-  
-              Menu open: "block", Menu closed: "hidden"
-            -->
           <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
             aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -29,90 +19,114 @@
         </button>
       </div>
 
-
-      <div class="absolute inset-y-0 left-0 flex 
-      items-center pr-2 lg:static lg:inset-auto lg:ml-6 lg:block md:block sm:block lg:pr-0 md:static
-       md:inset-auto md:ml-2 md:pr-0  sm:static sm:inset-auto sm:ml-2 sm:pr-0 hidden text-white">
-        <img class="h-12 w-14" src="assets\chatgpt_logo_gimp_white.png" alt="Fake Face">
+      <!-- Logo -->
+      <div class="flex flex-shrink-0 items-center">
+        <img class="h-8 w-auto" src="assets/chatgpt_logo_gimp_white.png" alt="Logo">
       </div>
 
-      <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-
-        <div class="hidden sm:ml-6 sm:block">
-          <ul class="flex mr-96 space-x-4">
-            <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-             @if(userId){
-              <a href="/feed"
-                class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 hover:text-white"
-                aria-current="page">Feed</a>
-              <a href="/friends"
-                class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 hover:text-white">Friends</a>
-              <a href="/people"
-                class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 hover:text-white">People</a>
-                <a href="/requests"
-                class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 hover:text-white">Requests</a>
-              <a href="/profile"
-                class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 hover:text-white">Profile</a>
-              <a href="/chatrooms"
-                class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 hover:text-white">Messages</a>
-              <button (click)="logOut()"
-                class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 hover:text-white">Log Out</button>
-             }
-            
-            <a href="/login"
-              class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 hover:text-white">Login</a>
-            <a href="/signup"
-              class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 hover:text-white">Sign
-              Up</a>
-          </ul>
+      <!-- Desktop Navigation -->
+      <div class="hidden sm:ml-6 sm:block">
+        <div class="flex space-x-4">
+          @if(userId) {
+            <a href="/feed"
+              class="rounded-md px-3 py-2 text-sm font-medium text-[#e6e6e6] hover:bg-[#6532dd] hover:text-white transition-colors duration-200">Feed</a>
+            <a href="/friends"
+              class="rounded-md px-3 py-2 text-sm font-medium text-[#e6e6e6] hover:bg-[#6532dd] hover:text-white transition-colors duration-200">Friends</a>
+            <a href="/people"
+              class="rounded-md px-3 py-2 text-sm font-medium text-[#e6e6e6] hover:bg-[#6532dd] hover:text-white transition-colors duration-200">People</a>
+            <a href="/requests"
+              class="rounded-md px-3 py-2 text-sm font-medium text-[#e6e6e6] hover:bg-[#6532dd] hover:text-white transition-colors duration-200">Requests</a>
+            <a href="/profile"
+              class="rounded-md px-3 py-2 text-sm font-medium text-[#e6e6e6] hover:bg-[#6532dd] hover:text-white transition-colors duration-200">Profile</a>
+            <a href="/chatrooms"
+              class="rounded-md px-3 py-2 text-sm font-medium text-[#e6e6e6] hover:bg-[#6532dd] hover:text-white transition-colors duration-200">Messages</a>
+            <button (click)="logOut()"
+              class="rounded-md px-3 py-2 text-sm font-medium text-[#e6e6e6] hover:bg-[#6532dd] hover:text-white transition-colors duration-200">Log Out</button>
+          }
+          
+          <a href="/login"
+            class="rounded-md px-3 py-2 text-sm font-medium text-[#e6e6e6] hover:bg-[#6532dd] hover:text-white transition-colors duration-200">Login</a>
+          <a href="/signup"
+            class="rounded-md px-3 py-2 text-sm font-medium text-[#e6e6e6] hover:bg-[#6532dd] hover:text-white transition-colors duration-200">Sign Up</a>
         </div>
       </div>
+
+      <!-- Notifications -->
       <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
         <button type="button" (click)="notificationClick()"
-          class="relative rounded-full bg-gray-100 p-1 text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-800 focus:ring-offset-2 focus:ring-offset-gray-800">
+          class="relative rounded-full p-1 text-[#e6e6e6] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#6532dd] focus:ring-offset-2 focus:ring-offset-[#000]">
           <span class="absolute -inset-1.5"></span>
           <span class="sr-only">View notifications</span>
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-            aria-hidden="true">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round"
               d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
           </svg>
+          <!-- Notification badge -->
+          <span class="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-1.5 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-[#6532dd] rounded-full">3</span>
         </button>
 
-        <ul
-          class="notificationmenu absolute top-1 right-11 z-10 mt-20 w-48 h-96 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+        <!-- Notification dropdown -->
+        <div class="notificationmenu absolute right-0 z-10 mt-48 w-64 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
           [ngClass]="{ 'show': isNotificationMenuOpen }" role="menu" aria-orientation="vertical"
           aria-labelledby="user-menu-button" tabindex="-1">
-          <!-- Active: "bg-gray-100", Not Active: "" -->
-          <li class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">
-            Noticications</li>
-          <li class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Friends
-            Requests</li>
-          <li class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Messages
-          </li>
-        </ul>
+          <div class="py-1">
+            <div class="px-4 py-3 border-b border-[#e6e6e6]">
+              <p class="text-sm font-medium text-[#000]">Notifications</p>
+            </div>
+            <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-[#e6e6e6] transition-colors duration-150" role="menuitem" tabindex="-1">
+              <div class="flex items-center">
+                <div class="flex-shrink-0">
+                  <div class="h-8 w-8 rounded-full bg-[#6532dd] flex items-center justify-center text-white">JD</div>
+                </div>
+                <div class="ml-3">
+                  <p class="text-sm font-medium text-gray-900">John Doe sent you a friend request</p>
+                  <p class="text-xs text-gray-500">2 hours ago</p>
+                </div>
+              </div>
+            </a>
+            <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-[#e6e6e6] transition-colors duration-150" role="menuitem" tabindex="-1">
+              <div class="flex items-center">
+                <div class="flex-shrink-0">
+                  <div class="h-8 w-8 rounded-full bg-[#6532dd] flex items-center justify-center text-white">AS</div>
+                </div>
+                <div class="ml-3">
+                  <p class="text-sm font-medium text-gray-900">Alice Smith liked your post</p>
+                  <p class="text-xs text-gray-500">4 hours ago</p>
+                </div>
+              </div>
+            </a>
+            <div class="px-4 py-2 border-t border-[#e6e6e6]">
+              <a href="#" class="text-xs font-medium text-[#6532dd] hover:text-[#4a1fb3]">View all notifications</a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Mobile menu, show/hide based on menu state. -->
+  <!-- Mobile menu -->
   <div class="sm:hidden" id="mobile-menu">
-    <ul class="hamburgermenu space-y-1 px-2 pb-3 pt-2" [ngClass]="{ 'show': isHamburgerMenuOpen }">
-      <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-      <a href="/feed"
-        class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white hover:bg-gray-700 hover:text-white"
-        aria-current="page">Feed</a>
-      <a href="/friends"
-        class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-gray-700 hover:text-white">Friends</a>
-      <a href="/profile"
-        class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-gray-700 hover:text-white">Profile</a>
-      <a href="/chatroom"
-        class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-gray-700 hover:text-white">Messages</a>
+    <div class="hamburgermenu space-y-1 px-2 pb-3 pt-2" [ngClass]="{ 'show': isHamburgerMenuOpen }">
+      @if(userId) {
+        <a href="/feed"
+          class="block rounded-md px-3 py-2 text-base font-medium text-[#e6e6e6] hover:bg-[#6532dd] hover:text-white transition-colors duration-200">Feed</a>
+        <a href="/friends"
+          class="block rounded-md px-3 py-2 text-base font-medium text-[#e6e6e6] hover:bg-[#6532dd] hover:text-white transition-colors duration-200">Friends</a>
+        <a href="/people"
+          class="block rounded-md px-3 py-2 text-base font-medium text-[#e6e6e6] hover:bg-[#6532dd] hover:text-white transition-colors duration-200">People</a>
+        <a href="/requests"
+          class="block rounded-md px-3 py-2 text-base font-medium text-[#e6e6e6] hover:bg-[#6532dd] hover:text-white transition-colors duration-200">Requests</a>
+        <a href="/profile"
+          class="block rounded-md px-3 py-2 text-base font-medium text-[#e6e6e6] hover:bg-[#6532dd] hover:text-white transition-colors duration-200">Profile</a>
+        <a href="/chatrooms"
+          class="block rounded-md px-3 py-2 text-base font-medium text-[#e6e6e6] hover:bg-[#6532dd] hover:text-white transition-colors duration-200">Messages</a>
+        <button (click)="logOut()"
+          class="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-[#e6e6e6] hover:bg-[#6532dd] hover:text-white transition-colors duration-200">Log Out</button>
+      }
       <a href="/login"
-        class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-gray-700 hover:text-white">Login</a>
+        class="block rounded-md px-3 py-2 text-base font-medium text-[#e6e6e6] hover:bg-[#6532dd] hover:text-white transition-colors duration-200">Login</a>
       <a href="/signup"
-        class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-gray-700 hover:text-white">Sign
-        Up</a>
-    </ul>
+        class="block rounded-md px-3 py-2 text-base font-medium text-[#e6e6e6] hover:bg-[#6532dd] hover:text-white transition-colors duration-200">Sign Up</a>
+    </div>
   </div>
 </nav>
