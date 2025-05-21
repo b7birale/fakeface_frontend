@@ -5,3 +5,9 @@ export interface Comment {
     content: string;
     date: Date;
 }
+
+export interface AddCommentModel {
+    postId: number;
+    userId: number;
+    content: string;
+}

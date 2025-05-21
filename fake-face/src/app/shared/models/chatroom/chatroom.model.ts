@@ -3,4 +3,5 @@ export interface ChatroomModel {
     name: string;
     userIdOne: number;
     userIdTwo: number;
+    profilePicture? : string;
 }

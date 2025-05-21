@@ -17,6 +17,8 @@ export class MenuComponent implements OnInit {
   isNotificationMenuOpen = false;
   isHamburgerMenuOpen = false;
   userId? : number = undefined;
+  firstname: string = "";
+  lastname: string = "";
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -27,11 +29,15 @@ export class MenuComponent implements OnInit {
     action$?.pipe(ofType(UserAction.LoginSuccess), takeUntil(this.destroy$)).subscribe((response) => {
       let token = this.utilService.decodeToken(response.data.token!);
       this.userId = Number(token.Id);
+      this.firstname = token.Firstname;
+      this.lastname = token.Lastname;
     })
   }
 
   ngOnInit(): void{
     this.userId = Number(localStorage.getItem("id"));
+    this.lastname = localStorage.getItem("lastname") ?? "";
+    this.firstname = localStorage.getItem("firstname") ?? "";
   }
 
   menuSwitch(pageValue: string){

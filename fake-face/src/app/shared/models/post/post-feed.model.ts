@@ -4,6 +4,7 @@ export interface PostFeed {
     postId: number;
     userId: number;
     picture?: string;
+    profilePicture?: string;
     content: string;
     date: Date;
     title: string;

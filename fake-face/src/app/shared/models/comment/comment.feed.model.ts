@@ -1,3 +1,5 @@
+import { SafeUrl } from "@angular/platform-browser";
+
 export interface FeedComment {
     commentId: number;
     postId: number;
@@ -7,4 +9,5 @@ export interface FeedComment {
     firstName: string;
     lastName: string;
     profilePicture: string;
+    profilePictureSafeUrl?: SafeUrl;
 }

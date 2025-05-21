@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, Observable, of } from "rxjs";
 import { FeedComment } from "../../models/comment/comment.feed.model";
+import { AddCommentModel } from "../../models/comment/comment.model";
 
 @Injectable({
     providedIn: 'root',
@@ -24,11 +25,9 @@ import { FeedComment } from "../../models/comment/comment.feed.model";
         .pipe(catchError(this.handleError<FeedComment[]>('GetComments', [])));
     }
 
-    AddComment(post_id: number): Observable<boolean> {
+    AddComment(dto: AddCommentModel): Observable<boolean> {
       let url = this.apiUrl + "/AddComment";
-      let queryParam = new HttpParams().set('post_id', post_id.toString());
-      console.log(queryParam);
-      return this.http.get<boolean>(url, {params: queryParam}
+      return this.http.post<boolean>(url, dto
       )
         .pipe(catchError(this.handleError<boolean>('AddComment', false)));
     }

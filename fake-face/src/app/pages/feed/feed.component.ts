@@ -47,14 +47,7 @@ export class FeedComponent implements OnInit, OnDestroy {
     date: new Date()
   }
 
-  //commentObject: Comment = {};
-  comments: Array<Comment> = []; //egyelőre ebben a tömbben tároljuk a kommenteket -> később erre adatbázis lesz ofc
-
-  commentsForm = this.createForm({
-    username: '',
-    comment: '',
-    date: new Date()
-  })
+  commentsForm: FormGroup = new FormGroup({})
 
   commentsMap: Map<number, FeedComment[]> = new Map<number, FeedComment[]>();
 
@@ -73,6 +66,7 @@ export class FeedComponent implements OnInit, OnDestroy {
         this.posts = JSON.parse(JSON.stringify(response.data));
         this.createCommentsMap(this.posts);
         this.createSafeUrls();
+        this.initCommentForm();
       }
       this.clearForm();
     })
@@ -96,8 +90,8 @@ export class FeedComponent implements OnInit, OnDestroy {
 
     action$?.pipe(ofType(CommentAction.GetCommentsByPostIdSuccess), takeUntil(this.destroy$)).subscribe((response) => {
       if (response.data !== null && response.data !== undefined) {
-        console.log(response.data);
         this.commentsMap.set(JSON.parse(JSON.stringify(response.data[0].postId)), JSON.parse(JSON.stringify(response.data)));
+        this.createSafeUrlsForComments();
       }
     })
 
@@ -111,6 +105,7 @@ export class FeedComponent implements OnInit, OnDestroy {
     }
   }
 
+  //kuka
   createForm(model: Comment){
     let formGroup = this.fb.group(model);
     formGroup.get('username')?.addValidators([Validators.required]);
@@ -155,26 +150,38 @@ export class FeedComponent implements OnInit, OnDestroy {
 
   reload(){}
 
+  addComment(postId: number){
+    const postIdStr: string = postId.toString();
+    console.log(this.commentsForm.controls[postId.toString()].value);
+  }
+
+  /*
   addComment() {
     if (this.commentsForm.valid){
       if(this.commentsForm.get('username') && this.commentsForm.get('comment')){
-        this.commentsForm.get('date')?.setValue(new Date());
+        //this.commentsForm.get('date')?.setValue(new Date());
         //SPREAD OPERÁTOR: {... }
         //this.comments.push({...this.commentObject});
   
-        this.comments.push({...this.commentsForm.value as Comment});
+        //this.comments.push({...this.commentsForm.value as Comment});
         ///this.router.navigateByUrl('/feed');
         //console.log("Sikeres komment :)");
   
         //másik megoldás:
         //this.comments.push(Object.assign({}, this.commentObject));
       }
-    } /*else{
+    } else{
       console.log("Sikertelen komment!");
-    }*/
+    }
 
   }
+  */
 
+  initCommentForm(){
+    this.posts.forEach(x => {
+      this.commentsForm.addControl(x.postId.toString(), new FormControl<string|null>(""));
+    })
+  }
   
   initForm(){
     this.form.addControl('title', new FormControl<string|null>(''));
@@ -246,6 +253,13 @@ export class FeedComponent implements OnInit, OnDestroy {
     console.log(event);
   }
 
+  getSafeImg(profilePicture: string){
+    if(profilePicture.length > 0){
+      return this.utilService.decodeBase64ImageFileToSecurityTrustResource(profilePicture);
+    } else{
+      return "";
+    }
+  }
 
   createSafeUrls(){
     this.posts = JSON.parse(JSON.stringify(this.posts));
@@ -254,6 +268,25 @@ export class FeedComponent implements OnInit, OnDestroy {
         this.posts[index].pictureSafeUrl = this.utilService.decodeBase64ImageFileToSecurityTrustResource(this.posts[index].picture!);
       }
     }
+  }
+
+  createSafeUrlsForComments(): void {
+    // A Map minden bejegyzésén (postId → FeedComment[]) végigiterálunk
+    this.commentsMap.forEach((commentArray, postId) => {
+      // Mélymásolat a mellékhatások elkerülésére
+      const newArray = commentArray.map(cm => {
+        if (cm.profilePicture && cm.profilePicture !== '') {
+          return {
+            ...cm,
+            profilePictureSafeUrl: this.utilService.decodeBase64ImageFileToSecurityTrustResource(cm.profilePicture)
+          };
+        }
+        return cm; // nincs kép - változatlanul vissza
+      });
+  
+      // Visszaírjuk a módosított tömböt ugyanazzal a kulccsal
+      this.commentsMap.set(postId, newArray);
+    });
   }
 
   clearForm(){

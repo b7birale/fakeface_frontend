@@ -116,6 +116,14 @@ export class ChatroomComponent implements OnInit, OnDestroy {
 
   }
 
+  getSafeImg(profilePicture: string){
+    if(profilePicture.length > 0){
+      return this.utilService.decodeBase64ImageFileToSecurityTrustResource(profilePicture);
+    } else{
+      return "";
+    }
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.complete();

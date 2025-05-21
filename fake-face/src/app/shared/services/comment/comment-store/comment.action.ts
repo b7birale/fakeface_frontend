@@ -1,5 +1,6 @@
 import { createAction, props } from "@ngrx/store";
 import { FeedComment } from "../../../models/comment/comment.feed.model";
+import { AddCommentModel } from "../../../models/comment/comment.model";
 
 export const init = createAction(
     '[Comments/API] Load Comments Init',
@@ -23,7 +24,7 @@ export const GetCommentsByPostIdSuccess = createAction(
 
 export const AddComment= createAction(
     '[Comments/API] Load AddComment',
-    props<{data: number }>()
+    props<{data: AddCommentModel }>()
 );
 
 export const AddCommentSuccess = createAction(
