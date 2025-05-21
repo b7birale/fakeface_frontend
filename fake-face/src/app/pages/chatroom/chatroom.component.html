@@ -29,7 +29,12 @@
           @for(chatroom of chatrooms; track $index){
             <div [ngStyle]="{'background-color': currentChatroomId === chatroom.chatroomId ? '#e6e6e6' : 'transparent' }" (click)="chatroomClicked(chatroom.chatroomId)" class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
               <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
-                <img src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato" alt="User Avatar" class="w-12 h-12 rounded-full">
+                @if(chatroom.profilePicture){
+                  <img class="rounded-full w-10 h-10 object-cover shadow-md" [src]="getSafeImg(chatroom.profilePicture)" loading="lazy">
+                }
+                @else {
+                  <img class="rounded-full w-10 h-10 object-cover shadow-md mb-2" src="../../../assets/anonymous.jpg" loading="lazy">
+                }
               </div>
               <div class="flex-1">
                 <h2 class="text-lg font-semibold">{{chatroom.name}}</h2>
@@ -56,7 +61,12 @@
               @if(userId == message.recieverUserId){
                 <div class="flex mb-4 cursor-pointer">
                   <div class="w-9 h-9 rounded-full flex items-center justify-center mr-2">
-                    <img src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato" alt="User Avatar" class="w-8 h-8 rounded-full">
+                    @if(senderProfilePicture){
+                      <img class="rounded-full w-10 h-10 object-cover shadow-md" [src]="getSafeImg(senderProfilePicture)" loading="lazy">
+                    }
+                    @else {
+                      <img class="rounded-full w-10 h-10 object-cover shadow-md mb-2" src="../../../assets/anonymous.jpg" loading="lazy">
+                    }
                   </div>
                   <div class="flex max-w-96 bg-white rounded-lg p-3 gap-3">
                     <p class="text-gray-700">{{message.content}}</p>
@@ -69,7 +79,12 @@
                     <p>{{message.content}}</p>
                   </div>
                   <div class="w-9 h-9 rounded-full flex items-center justify-center ml-2">
-                    <img src="https://placehold.co/200x/b7a8ff/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato" alt="My Avatar" class="w-8 h-8 rounded-full">
+                    @if(myProfilePicture){
+                      <img class="rounded-full w-10 h-10 object-cover shadow-md" [src]="getSafeImg(myProfilePicture)" loading="lazy">
+                    }
+                    @else {
+                      <img class="rounded-full w-10 h-10 object-cover shadow-md mb-2" src="../../../assets/anonymous.jpg" loading="lazy">
+                    }
                   </div>
                 </div>
               }

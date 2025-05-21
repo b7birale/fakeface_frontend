@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as ChatroomAction from '../../shared/services/chatroom/chatroom-store/chatroom.action';
 import * as MessageAction from '../../shared/services/message/message-store/message.action';
+import * as UserAction from '../../shared/services/user/user-store/user.action';
 import { Subject, takeUntil } from 'rxjs';
 import { ChatroomModel } from '../../shared/models/chatroom/chatroom.model';
 import { Store } from '@ngrx/store';
@@ -23,7 +24,8 @@ export class ChatroomComponent implements OnInit, OnDestroy {
   userId: number = 0;
   chatrooms: ChatroomModel[] = []
   messages: Message[] = []
-
+  myProfilePicture: string = ""
+  senderProfilePicture: string = ""
   messageContent: string = ""
 
   currentChatroomId: number = 0
@@ -50,6 +52,12 @@ export class ChatroomComponent implements OnInit, OnDestroy {
     action$?.pipe(ofType(MessageAction.GetMessagesByChatroomIdSuccess), takeUntil(this.destroy$)).subscribe((response) => {
       if (response.data !== null && response.data !== undefined) {
         this.messages = response.data;
+        const index = this.chatrooms.findIndex(x => x.chatroomId === this.currentChatroomId);
+        if(this.chatrooms && this.chatrooms[index].profilePicture && index > -1){
+          this.senderProfilePicture = this.chatrooms[index].profilePicture!;
+        } else{
+          this.senderProfilePicture = "";
+        }
       }
     })
     action$?.pipe(ofType(MessageAction.SendMessageSuccess), takeUntil(this.destroy$)).subscribe((response) => {
@@ -57,10 +65,16 @@ export class ChatroomComponent implements OnInit, OnDestroy {
         this.store.dispatch(MessageAction.GetMessagesByChatroomId({data: this.currentChatroomId}));
       }
     })
+    action$?.pipe(ofType(UserAction.GetUserToProfileSuccess), takeUntil(this.destroy$)).subscribe((response) => {
+      if (response.data !== null && response.data !== undefined && response.data.profilePicture) {
+        this.myProfilePicture = response.data.profilePicture;
+      }
+    })
   }
 
   ngOnInit(): void {
     this.userId = Number(localStorage.getItem("id"));
+    this.store.dispatch(UserAction.GetUserToProfile({data: this.userId}));
     this.activatedRoute.queryParamMap.subscribe(params => {
       const id = params.get("chatroom_id");
       if(id){
